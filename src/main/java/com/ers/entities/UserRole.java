@@ -10,11 +10,13 @@ import java.util.ResourceBundle;
 public class UserRole {
     private int userRoleID;
     private String role;
-    private ResourceBundle constants = ResourceBundle.getBundle("constants");
 
-    public UserRole(int userRoleID, String role) {
+    public UserRole() {}
+
+    public UserRole(int userRoleID, String role) throws StringLengthException {
         this.userRoleID = userRoleID;
-        this.role = role.length()>0 && role.length()<=Integer.parseInt(constants.getString("userRole.role.length"))? role :null;
+        if(validateRole(role)) this.role = role;
+        else throw new StringLengthException();
     }
 
     public int getUserRoleID() {
@@ -30,9 +32,15 @@ public class UserRole {
     }
 
     public void setRole(String role) throws StringLengthException{
-        if(role.length()>0 && role.length()<=Integer.parseInt(constants.getString("userRole.role.length")))
-            this.role = role;
+        if(validateRole(role)) this.role = role;
         else throw new StringLengthException();
+    }
+
+    private boolean validateRole(String role){
+        if(role==null || role.length()==0) return false;
+        ResourceBundle constants = ResourceBundle.getBundle("constants");
+        int length = Integer.parseInt(constants.getString("userRole.role.length"));
+        return  role.length()<=length? true:false;
     }
 
     @Override
