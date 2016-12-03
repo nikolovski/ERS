@@ -1,21 +1,27 @@
 package com.ers.entities;
 
+import com.ers.Helper;
 import com.ers.exceptions.StringLengthException;
-
-import java.util.ResourceBundle;
 
 /**
  * Created by Martino Nikolovski on 12/2/16.
  */
-public class UserRole {
+
+public class UserRole implements Helper{
     private int userRoleID;
     private String role;
 
     public UserRole() {}
 
+    /**
+     * Constructor with 2 input parameters
+     * @param userRoleID the id of the role
+     * @param role the name of the role
+     * @throws StringLengthException if the role length is beyond the range specified in the properties file
+     */
     public UserRole(int userRoleID, String role) throws StringLengthException {
         this.userRoleID = userRoleID;
-        if(validateRole(role)) this.role = role;
+        if(validateRoleLength(role)) this.role = role;
         else throw new StringLengthException();
     }
 
@@ -32,13 +38,17 @@ public class UserRole {
     }
 
     public void setRole(String role) throws StringLengthException{
-        if(validateRole(role)) this.role = role;
+        if(validateRoleLength(role)) this.role = role;
         else throw new StringLengthException();
     }
 
-    private boolean validateRole(String role){
+    /**
+     * Method for validating the length of the role name
+     * @param role String that needs to be validated
+     * @return  true if the string is valid
+     */
+    private boolean validateRoleLength(String role){
         if(role==null || role.length()==0) return false;
-        ResourceBundle constants = ResourceBundle.getBundle("constants");
         int length = Integer.parseInt(constants.getString("userRole.role.length"));
         return  role.length()<=length? true:false;
     }

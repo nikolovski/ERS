@@ -1,22 +1,26 @@
 package com.ers.entities;
 
+import com.ers.Helper;
 import com.ers.exceptions.StringLengthException;
-
-import java.util.ResourceBundle;
 
 /**
  * Created by Martino Nikolovski on 12/2/16.
  */
-public class ReimbursementType {
 
+public class ReimbursementType implements Helper {
     private int typeId;
     private String type;
-    private ResourceBundle constants = ResourceBundle.getBundle("constants");
 
-    public ReimbursementType(int typeId, String type) {
+    /**
+     * Constructor with 2 input parameters
+     * @param typeId the id of the type
+     * @param type the name of the type
+     * @throws StringLengthException if the type length is beyond the range specified in the properties file
+     */
+    public ReimbursementType(int typeId, String type) throws StringLengthException {
         this.typeId = typeId;
-        this.type = type.length()>0 && type.length()<=Integer.parseInt(constants.getString("reimbursementType.type.length"))?
-                type:null;
+        if(validateTypeLength(type)) this.type = type;
+        else throw new StringLengthException();
     }
 
     public int getTypeId() {
@@ -32,9 +36,19 @@ public class ReimbursementType {
     }
 
     public void setType(String type) throws StringLengthException {
-        if(type.length()>0 && type.length()<=Integer.parseInt(constants.getString("reimbursementType.type.length")))
-            this.type = type;
+        if(validateTypeLength(type)) this.type = type;
         else throw new StringLengthException();
+    }
+
+    /**
+     * Method for validating the length of the type name
+     * @param type String that needs to be validated
+     * @return true if the string is valid
+     */
+    private boolean validateTypeLength(String type){
+        if(type==null || type.length()==0) return false;
+        int length = Integer.parseInt(constants.getString("reimbursementType.type.length"));
+        return  type.length()<=length? true:false;
     }
 
     @Override
