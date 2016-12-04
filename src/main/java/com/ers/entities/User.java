@@ -1,6 +1,6 @@
 package com.ers.entities;
 
-import com.ers.Helper;
+import com.ers.ResourceHelper;
 import com.ers.exceptions.StringLengthException;
 
 
@@ -8,7 +8,7 @@ import com.ers.exceptions.StringLengthException;
  * Created by Martino Nikolovski on 12/2/16.
  */
 
-public class User implements Helper{
+public class User implements ResourceHelper {
     private int userId;
     private String username;
     private String password;

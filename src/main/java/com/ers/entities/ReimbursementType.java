@@ -1,15 +1,17 @@
 package com.ers.entities;
 
-import com.ers.Helper;
+import com.ers.ResourceHelper;
 import com.ers.exceptions.StringLengthException;
 
 /**
  * Created by Martino Nikolovski on 12/2/16.
  */
 
-public class ReimbursementType implements Helper {
+public class ReimbursementType implements ResourceHelper {
     private int typeId;
     private String type;
+
+    public ReimbursementType() {}
 
     /**
      * Constructor with 2 input parameters

@@ -1186,3 +1186,5 @@ INSERT INTO ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_re
 VALUES (299, 1462.91, TIMESTAMP '2016-08-16 06:39:05', NULL, NULL, NULL, 31, 5, 1, 1);
 INSERT INTO ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)
 VALUES (300, 946.18, TIMESTAMP '2016-09-29 19:38:15', NULL, NULL, NULL, 12, 41, 1, 1);
+
+COMMIT;

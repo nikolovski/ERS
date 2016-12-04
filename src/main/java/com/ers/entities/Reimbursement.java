@@ -1,21 +1,22 @@
 package com.ers.entities;
 
-import com.ers.Helper;
+import com.ers.ResourceHelper;
 import com.ers.exceptions.StringLengthException;
 
-import java.io.File;
-import java.util.Date;
+import java.sql.Blob;
+import java.sql.Timestamp;
 
 /**
  * Created by Martino Nikolovski on 12/2/16.
  */
-public class Reimbursement implements Helper{
+public class Reimbursement implements ResourceHelper {
+
     private int reimbId;
     private double reimbAmount;
-    private Date reimbSubmitted;
-    private Date reimbResolved;
+    private Timestamp reimbSubmitted;
+    private Timestamp reimbResolved;
     private String reimbDescription;
-    private File reimbReceipt;
+    private Blob reimbReceipt;
     private User reimbAuthor;
     private User reimbResolver;
     private ReimbursementStatus reimbStatus;
@@ -37,21 +38,19 @@ public class Reimbursement implements Helper{
      */
     public Reimbursement(int reimbId,
                          double reimbAmount,
-                         Date reimbSubmitted,
-                         Date reimbResolved,
+                         Timestamp reimbSubmitted,
+                         Timestamp reimbResolved,
                          String reimbDescription,
-                         File reimbReceipt,
+                         Blob reimbReceipt,
                          User reimbAuthor,
                          User reimbResolver,
                          ReimbursementStatus reimbStatus,
-                         ReimbursementType reimbType) throws StringLengthException {
+                         ReimbursementType reimbType) {
         this.reimbId = reimbId;
         this.reimbAmount = reimbAmount;
         this.reimbSubmitted = reimbSubmitted;
         this.reimbResolved = reimbResolved;
-        if(validateDescriptionLength(reimbDescription))
-            this.reimbDescription = reimbDescription;
-        else throw new StringLengthException();
+        this.reimbDescription = reimbDescription;
         this.reimbReceipt = reimbReceipt;
         this.reimbAuthor = reimbAuthor;
         this.reimbResolver = reimbResolver;
@@ -75,19 +74,19 @@ public class Reimbursement implements Helper{
         this.reimbAmount = reimbAmount;
     }
 
-    public Date getReimbSubmitted() {
+    public Timestamp getReimbSubmitted() {
         return reimbSubmitted;
     }
 
-    public void setReimbSubmitted(Date reimbSubmitted) {
+    public void setReimbSubmitted(Timestamp reimbSubmitted) {
         this.reimbSubmitted = reimbSubmitted;
     }
 
-    public Date getReimbResolved() {
+    public Timestamp getReimbResolved() {
         return reimbResolved;
     }
 
-    public void setReimbResolved(Date reimbResolved) {
+    public void setReimbResolved(Timestamp reimbResolved) {
         this.reimbResolved = reimbResolved;
     }
 
@@ -101,11 +100,11 @@ public class Reimbursement implements Helper{
         else throw new StringLengthException();
     }
 
-    public File getReimbReceipt() {
+    public Blob getReimbReceipt() {
         return reimbReceipt;
     }
 
-    public void setReimbReceipt(File reimbReceipt) {
+    public void setReimbReceipt(Blob reimbReceipt) {
         this.reimbReceipt = reimbReceipt;
     }
 
@@ -141,6 +140,21 @@ public class Reimbursement implements Helper{
         this.reimbType = reimbType;
     }
 
+    @Override
+    public String toString() {
+        return "Reimbursement{" +
+                "reimbId=" + reimbId +
+                ", reimbAmount=" + reimbAmount +
+                ", reimbSubmitted=" + reimbSubmitted +
+                ", reimbResolved=" + reimbResolved +
+                ", reimbDescription='" + reimbDescription + '\'' +
+                ", reimbReceipt=" + reimbReceipt +
+                ", reimbAuthor=" + reimbAuthor +
+                ", reimbResolver=" + reimbResolver +
+                ", reimbStatus=" + reimbStatus +
+                ", reimbType=" + reimbType +
+                '}';
+    }
 
     /**
      * Validation for the description length
@@ -149,7 +163,8 @@ public class Reimbursement implements Helper{
      */
     private boolean validateDescriptionLength(String reimbDescription){
         if(reimbDescription==null || reimbDescription.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("reimbursement.description.lengths"));
+        int length = Integer.parseInt(constants.getString("reimbursement.description.length"));
+        System.out.println(reimbDescription.length());
         return  reimbDescription.length()<=length? true:false;
     }
 }
