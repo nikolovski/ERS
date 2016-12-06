@@ -1,7 +1,6 @@
 package com.ers.daos;
 
 import com.ers.DAO;
-import com.ers.entities.Reimbursement;
 import com.ers.entities.ReimbursementStatus;
 
 import java.sql.Connection;
@@ -31,29 +30,47 @@ public class ReimbursementStatusDAO implements DAO<ReimbursementStatus> {
     }
 
     public List<ReimbursementStatus> queryAll() throws SQLException {
-        List<ReimbursementStatus> reimbursementStatusList = new ArrayList<ReimbursementStatus>();
-        String sql = "SELECT * FROM "+constants.getString("reimbursementStatusTableName");
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery(sql);
-        mapRows(resultSet,reimbursementStatusList);
-        return reimbursementStatusList;
+        try{
+            List<ReimbursementStatus> reimbursementStatusList = new ArrayList<ReimbursementStatus>();
+            //String sql = "SELECT * FROM "+constants.getString("reimbursementStatusTableName");
+            String sql = "SELECT * FROM ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,constants.getString("reimbursementStatusTableName"));
+            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            mapRows(resultSet,reimbursementStatusList);
+            connection.commit();
+            return reimbursementStatusList;
+        }finally {
+            connection.close();
+        }
+
     }
 
     public ReimbursementStatus queryById(int id) throws SQLException {
-        String sql = "SELECT * FROM "+constants.getString("reimbursementStatusTableName")+" WHERE "+
-                constants.getString("reimbursementStatusId")+"="+id;
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery(sql);
-        List<ReimbursementStatus> reimbursementList = new ArrayList<ReimbursementStatus>();
-        mapRows(resultSet,reimbursementList);
-        return reimbursementList.get(0);
+        try{
+            String sql = "SELECT * FROM "+constants.getString("reimbursementStatusTableName")+" WHERE "+
+                    constants.getString("reimbursementStatusId")+"="+id;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            List<ReimbursementStatus> reimbursementList = new ArrayList<ReimbursementStatus>();
+            mapRows(resultSet,reimbursementList);
+            resultSet.close();
+            return reimbursementList.get(0);
+        }finally {
+            connection.close();
+        }
     }
 
     public int getId() throws SQLException {
+        int id;
         String sql = "SELECT MAX("+constants.getString("reimbursementStatusId")+") FROM "+constants.getString("reimbursementTableName");
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery(sql);
-        if(resultSet.next()) return resultSet.getInt(1);
+        if(resultSet.next()){
+            id = resultSet.getInt(1);
+            resultSet.close();
+            return id;
+        }
         else throw new SQLException();
     }
 

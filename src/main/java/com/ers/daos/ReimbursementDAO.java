@@ -69,13 +69,10 @@ public class ReimbursementDAO implements DAO<Reimbursement>{
 
     public void mapRows(ResultSet resultSet, List<Reimbursement> list) throws SQLException {
         while(resultSet.next()){
-            //TODO change User objects
-            User author = new User();
-            author.setUserId(resultSet.getInt(7));
-            User resolver = new User();
-            author.setUserId(resultSet.getInt(8));
-            ReimbursementStatus status = new ReimbursementStatus();
-            status.setStatusId(resultSet.getInt(9));
+            //TODO change Type object
+            User author = new UserDAO(connection).queryById(resultSet.getInt(7));
+            User resolver = new UserDAO(connection).queryById(resultSet.getInt(8));
+            ReimbursementStatus status = new ReimbursementStatusDAO(connection).queryById(resultSet.getInt(9));
             ReimbursementType type = new ReimbursementType();
             type.setTypeId(resultSet.getInt(10));
             Reimbursement reimbursement = new Reimbursement(
