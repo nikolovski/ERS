@@ -40,11 +40,11 @@ public class User implements ResourceHelper {
                 String email,
                 UserRole role) throws StringLengthException {
         this.id = id;
-        setUsername(username);
-        setPassword(password);
-        setFirstName(firstName);
-        setLastName(lastName);
-        setEmail(email);
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.role = role;
     }
 
@@ -108,12 +108,12 @@ public class User implements ResourceHelper {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                '}';
+                ",\n\t username='" + username + '\'' +
+                ",\n\t password='" + password + '\'' +
+                ",\n\t firstName='" + firstName + '\'' +
+                ",\n\t lastName='" + lastName + '\'' +
+                ",\n\t email='" + email + '\'' +
+                ",\n\t role=" + role +
+                "\n}";
     }
 }

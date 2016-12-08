@@ -37,19 +37,7 @@ public class UserRole implements ResourceHelper {
     }
 
     public void setRole(String role) throws StringLengthException{
-        if(validateRoleLength(role)) this.role = role;
-        else throw new StringLengthException();
-    }
-
-    /**
-     * Method for validating the length of the role name
-     * @param role String that needs to be validated
-     * @return  true if the string is valid
-     */
-    private boolean validateRoleLength(String role){
-        if(role==null || role.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("userRole.role.length"));
-        return  role.length()<=length? true:false;
+        this.role = role;
     }
 
     @Override

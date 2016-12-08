@@ -2,6 +2,7 @@ package com.ers.daos;
 
 import com.ers.ServiceLocator;
 import com.ers.entities.User;
+import com.ers.entities.UserRole;
 import junit.framework.TestCase;
 
 import java.sql.Connection;
@@ -22,7 +23,9 @@ public class UserDAOTest extends TestCase {
     }
 
     public void testInsert() throws Exception {
-
+        UserRole role = new UserRole(4,"TestRole");
+        User user = new User(23,"mnikolovski","skdjfsdf","Martino","Nikolovski","mnikolovski@testm.com",role);
+        new UserDAO(connection).insert(user);
     }
 
     public void testQueryAll() throws Exception {
@@ -33,11 +36,12 @@ public class UserDAOTest extends TestCase {
     }
 
     public void testQueryById() throws Exception {
-
+        System.out.println(new UserDAO(connection).queryById(6));
+        System.out.println(new UserDAO(connection).queryById(15));
     }
 
     public void testGetId() throws Exception {
-
+        System.out.println(new UserDAO(connection).getId());
     }
 
 }

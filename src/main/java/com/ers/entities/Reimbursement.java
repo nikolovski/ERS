@@ -144,16 +144,16 @@ public class Reimbursement implements ResourceHelper {
     public String toString() {
         return "Reimbursement{" +
                 "id=" + id +
-                ", reimbAmount=" + reimbAmount +
-                ", reimbSubmitted=" + reimbSubmitted +
-                ", reimbResolved=" + reimbResolved +
-                ", reimbDescription='" + reimbDescription + '\'' +
-                ", reimbReceipt=" + reimbReceipt +
-                ", reimbAuthor=" + reimbAuthor +
-                ", reimbResolver=" + reimbResolver +
-                ", reimbStatus=" + reimbStatus +
-                ", reimbType=" + reimbType +
-                '}';
+                ",\n\treimbAmount=" + reimbAmount +
+                ",\n\treimbSubmitted=" + reimbSubmitted +
+                ",\n\treimbResolved=" + reimbResolved +
+                ",\n\treimbDescription='" + reimbDescription + '\'' +
+                ",\n\treimbReceipt=" + reimbReceipt +
+                ",\n\treimbAuthor=" + reimbAuthor +
+                ",\n\treimbResolver=" + reimbResolver +
+                ",\n\treimbStatus=" + reimbStatus +
+                ",\n\treimbType=" + reimbType +
+                "\n\t}";
     }
 
     /**
