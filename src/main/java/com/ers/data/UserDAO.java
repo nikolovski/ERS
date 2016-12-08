@@ -1,4 +1,4 @@
-package com.ers.daos;
+package com.ers.data;
 
 import com.ers.DAO;
 import com.ers.entities.User;
