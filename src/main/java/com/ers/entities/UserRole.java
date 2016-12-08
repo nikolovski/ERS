@@ -8,29 +8,28 @@ import com.ers.exceptions.StringLengthException;
  */
 
 public class UserRole implements ResourceHelper {
-    private int userRoleID;
+    private int id;
     private String role;
 
     public UserRole() {}
 
     /**
      * Constructor with 2 input parameters
-     * @param userRoleID the id of the role
+     * @param id the id of the role
      * @param role the name of the role
      * @throws StringLengthException if the role length is beyond the range specified in the properties file
      */
-    public UserRole(int userRoleID, String role) throws StringLengthException {
-        this.userRoleID = userRoleID;
-        if(validateRoleLength(role)) this.role = role;
-        else throw new StringLengthException();
+    public UserRole(int id, String role) throws StringLengthException {
+        this.id = id;
+        this.role = role;
     }
 
-    public int getUserRoleID() {
-        return userRoleID;
+    public int getId() {
+        return id;
     }
 
-    public void setUserRoleID(int userRoleID) {
-        this.userRoleID = userRoleID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRole() {
@@ -56,7 +55,7 @@ public class UserRole implements ResourceHelper {
     @Override
     public String toString() {
         return "UserRole{" +
-                "userRoleID=" + userRoleID +
+                "id=" + id +
                 ", role='" + role + '\'' +
                 '}';
     }

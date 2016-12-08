@@ -8,28 +8,28 @@ import com.ers.exceptions.StringLengthException;
  */
 
 public class ReimbursementStatus implements ResourceHelper {
-    private int statusId;
+    private int id;
     private String status;
 
     public ReimbursementStatus() {}
 
     /**
      * Constructor with 2 input parameters
-     * @param statusId the id of the status
+     * @param id the id of the status
      * @param status the name of the status
      */
-    public ReimbursementStatus(int statusId, String status) throws StringLengthException {
-        this.statusId = statusId;
+    public ReimbursementStatus(int id, String status) throws StringLengthException {
+        this.id = id;
         if(validateStatusLength(status)) this.status = status;
         else throw new StringLengthException();
     }
 
-    public int getStatusId() {
-        return statusId;
+    public int getId() {
+        return id;
     }
 
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStatus() {
@@ -55,7 +55,7 @@ public class ReimbursementStatus implements ResourceHelper {
     @Override
     public String toString() {
         return "ReimbursementStatus{" +
-                "statusId=" + statusId +
+                "id=" + id +
                 ", status='" + status + '\'' +
                 '}';
     }

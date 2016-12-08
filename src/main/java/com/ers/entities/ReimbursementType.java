@@ -8,29 +8,29 @@ import com.ers.exceptions.StringLengthException;
  */
 
 public class ReimbursementType implements ResourceHelper {
-    private int typeId;
+    private int id;
     private String type;
 
     public ReimbursementType() {}
 
     /**
      * Constructor with 2 input parameters
-     * @param typeId the id of the type
+     * @param id the id of the type
      * @param type the name of the type
      * @throws StringLengthException if the type length is beyond the range specified in the properties file
      */
-    public ReimbursementType(int typeId, String type) throws StringLengthException {
-        this.typeId = typeId;
+    public ReimbursementType(int id, String type) throws StringLengthException {
+        this.id = id;
         if(validateTypeLength(type)) this.type = type;
         else throw new StringLengthException();
     }
 
-    public int getTypeId() {
-        return typeId;
+    public int getId() {
+        return id;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getType() {
@@ -56,7 +56,7 @@ public class ReimbursementType implements ResourceHelper {
     @Override
     public String toString() {
         return "ReimbursementType{" +
-                "typeId=" + typeId +
+                "id=" + id +
                 ", type='" + type + '\'' +
                 '}';
     }

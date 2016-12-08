@@ -9,7 +9,7 @@ import com.ers.exceptions.StringLengthException;
  */
 
 public class User implements ResourceHelper {
-    private int userId;
+    private int id;
     private String username;
     private String password;
     private String firstName;
@@ -17,86 +17,83 @@ public class User implements ResourceHelper {
     private String email;
     private UserRole role;
 
-    public User() {}
+    public User() {
+    }
 
     /**
      * Constructor with 7 input parameters
-     * @param userId
+     *
+     * @param id
      * @param username
      * @param password
      * @param firstName
      * @param lastName
      * @param email
-     * @param role the role of the user such as DBA, Web Developer, Finance Manger etc.
+     * @param role      the role of the user such as DBA, Web Developer, Finance Manger etc.
      * @throws StringLengthException if any of the input values violates the length restriction
      */
-    public User(int userId,
+    public User(int id,
                 String username,
                 String password,
                 String firstName,
                 String lastName,
                 String email,
                 UserRole role) throws StringLengthException {
-        this.userId = userId;
+        this.id = id;
         setUsername(username);
         setPassword(password);
         setFirstName(firstName);
-        setFirstName(lastName);
+        setLastName(lastName);
         setEmail(email);
         this.role = role;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) throws StringLengthException {
-        if(validateUsernameLength(username)) this.username = username;
-        else throw new StringLengthException();
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) throws StringLengthException {
-        if(validatePasswordLength(password)) this.password = password;
-        else throw new StringLengthException();
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) throws StringLengthException {
-        if(validateFirstNameLength(firstName)) this.firstName = firstName;
-        else throw new StringLengthException();
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) throws StringLengthException {
-        if(validateLastNameLength(lastName)) this.lastName = lastName;
-        else throw new StringLengthException();
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) throws StringLengthException {
-        if(validateEmailLength(email)) this.email = email;
-        else throw new StringLengthException();
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public UserRole getRole() {
@@ -107,65 +104,10 @@ public class User implements ResourceHelper {
         this.role = role;
     }
 
-    /**
-     * Validation for the username length
-     * @param username
-     * @return true if validation is successful
-     */
-    private boolean validateUsernameLength(String username){
-        if(username==null || username.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("user.username.length"));
-        return  username.length()<=length? true:false;
-    }
-
-    /**
-     * Validation for the password length
-     * @param username
-     * @return true if validation is successful
-     */
-    private boolean validatePasswordLength(String username){
-        if(username==null || username.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("user.password.length"));
-        return  username.length()<=length? true:false;
-    }
-
-    /**
-     * Validation for the first name length
-     * @param firstName
-     * @return true if validation is successful
-     */
-    private boolean validateFirstNameLength(String firstName){
-        if(firstName==null || firstName.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("user.firstName.length"));
-        return  firstName.length()<=length? true:false;
-    }
-
-    /**
-     * Validation for the last name length
-     * @param lastName
-     * @return true if validation is successful
-     */
-    private boolean validateLastNameLength(String lastName){
-        if(lastName==null || lastName.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("user.lastName.length"));
-        return  lastName.length()<=length? true:false;
-    }
-
-    /**
-     * Validation for the email length
-     * @param email
-     * @return true if validation is successful
-     */
-    private boolean validateEmailLength(String email){
-        if(email==null || email.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("user.email.length"));
-        return  email.length()<=length? true:false;
-    }
-
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +

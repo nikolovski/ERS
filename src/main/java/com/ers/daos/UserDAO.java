@@ -31,13 +31,13 @@ public class UserDAO implements DAO<User> {
         preparedStatement.setString(4,object.getFirstName());
         preparedStatement.setString(5,object.getLastName());
         preparedStatement.setString(6,object.getEmail());
-        preparedStatement.setInt(7,object.getRole().getUserRoleID());
+        preparedStatement.setInt(7,object.getRole().getId());
         preparedStatement.executeUpdate();
     }
 
     public List<User> queryAll() throws SQLException {
         List<User> userList = new ArrayList<User>();
-        String sql = "SELECT * FROM "+constants.getString("userTableName");
+        String sql = getAllUsers;
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery(sql);
         mapRows(resultSet,userList);
@@ -46,10 +46,10 @@ public class UserDAO implements DAO<User> {
     }
 
     public User queryById(int id) throws SQLException {
-        String sql = "SELECT * FROM "+constants.getString("userTableName")+" WHERE "+
-                constants.getString("userId")+"="+id;
+        String sql = getAllUsers+" WHERE "+ userId +"= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery(sql);
+        preparedStatement.setInt(1,id);
+        ResultSet resultSet = preparedStatement.executeQuery();
         List<User> userList = new ArrayList<User>();
         mapRows(resultSet,userList);
         connection.commit();
@@ -70,7 +70,6 @@ public class UserDAO implements DAO<User> {
 
     public void mapRows(ResultSet resultSet, List<User> list) throws SQLException {
         while(resultSet.next()){
-            UserRole userRole = new UserRoleDAO(connection).queryById(resultSet.getInt(7));
             User user = new User(
                     resultSet.getInt(1),
                     resultSet.getString(2),
@@ -78,7 +77,10 @@ public class UserDAO implements DAO<User> {
                     resultSet.getString(4),
                     resultSet.getString(5),
                     resultSet.getString(6),
-                    userRole
+                    new UserRole(
+                            resultSet.getInt(8),
+                            resultSet.getString(9)
+                    )
             );
             list.add(user);
         }

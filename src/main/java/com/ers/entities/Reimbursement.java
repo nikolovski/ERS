@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 public class Reimbursement implements ResourceHelper {
 
-    private int reimbId;
+    private int id;
     private double reimbAmount;
     private Timestamp reimbSubmitted;
     private Timestamp reimbResolved;
@@ -24,7 +24,7 @@ public class Reimbursement implements ResourceHelper {
 
     /**
      * Constructor with 10 input parameters
-     * @param reimbId
+     * @param id
      * @param reimbAmount
      * @param reimbSubmitted
      * @param reimbResolved
@@ -36,7 +36,7 @@ public class Reimbursement implements ResourceHelper {
      * @param reimbType
      * @throws StringLengthException if any of the input values violates the length restriction
      */
-    public Reimbursement(int reimbId,
+    public Reimbursement(int id,
                          double reimbAmount,
                          Timestamp reimbSubmitted,
                          Timestamp reimbResolved,
@@ -46,7 +46,7 @@ public class Reimbursement implements ResourceHelper {
                          User reimbResolver,
                          ReimbursementStatus reimbStatus,
                          ReimbursementType reimbType) {
-        this.reimbId = reimbId;
+        this.id = id;
         this.reimbAmount = reimbAmount;
         this.reimbSubmitted = reimbSubmitted;
         this.reimbResolved = reimbResolved;
@@ -58,12 +58,12 @@ public class Reimbursement implements ResourceHelper {
         this.reimbType = reimbType;
     }
 
-    public int getReimbId() {
-        return reimbId;
+    public int getId() {
+        return id;
     }
 
-    public void setReimbId(int reimbId) {
-        this.reimbId = reimbId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getReimbAmount() {
@@ -143,7 +143,7 @@ public class Reimbursement implements ResourceHelper {
     @Override
     public String toString() {
         return "Reimbursement{" +
-                "reimbId=" + reimbId +
+                "id=" + id +
                 ", reimbAmount=" + reimbAmount +
                 ", reimbSubmitted=" + reimbSubmitted +
                 ", reimbResolved=" + reimbResolved +
