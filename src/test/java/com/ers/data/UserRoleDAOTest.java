@@ -1,7 +1,7 @@
 package com.ers.data;
 
 import com.ers.ServiceLocator;
-import com.ers.entities.UserRole;
+import com.ers.beans.UserRole;
 import junit.framework.TestCase;
 
 import java.sql.Connection;

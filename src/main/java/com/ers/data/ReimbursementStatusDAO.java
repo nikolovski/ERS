@@ -1,7 +1,6 @@
 package com.ers.data;
 
-import com.ers.DAO;
-import com.ers.entities.ReimbursementStatus;
+import com.ers.beans.ReimbursementStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,20 +12,14 @@ import java.util.List;
 /**
  * Created by Martino Nikolovski on 12/3/16.
  */
-public class ReimbursementStatusDAO implements DAO<ReimbursementStatus> {
+class ReimbursementStatusDAO implements DAO<ReimbursementStatus> {
     private Connection connection;
 
-    public ReimbursementStatusDAO(Connection connection) {
+    ReimbursementStatusDAO(Connection connection) {
         this.connection = connection;
     }
 
     public void insert(ReimbursementStatus object) throws SQLException {
-        String sql = "INSERT INTO " + constants.getString("reimbursementStatusTableName") +
-                " VALUES (?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, getId());
-        preparedStatement.setString(2, object.getStatus());
-        preparedStatement.executeUpdate();
     }
 
     public List<ReimbursementStatus> queryAll() throws SQLException {

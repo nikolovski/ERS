@@ -1,7 +1,6 @@
 package com.ers.data;
 
-import com.ers.DAO;
-import com.ers.entities.ReimbursementType;
+import com.ers.beans.ReimbursementType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,10 +12,10 @@ import java.util.List;
 /**
  * Created by Martino Nikolovski on 12/3/16.
  */
-public class ReimbursementTypeDAO implements DAO<ReimbursementType>{
+class ReimbursementTypeDAO implements DAO<ReimbursementType>{
     Connection connection;
 
-    public ReimbursementTypeDAO(Connection connection) {
+    ReimbursementTypeDAO(Connection connection) {
         this.connection = connection;
     }
 

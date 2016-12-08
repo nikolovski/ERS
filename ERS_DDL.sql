@@ -57,7 +57,7 @@ CREATE TABLE ers_reimbursement_type (
 CREATE TABLE ers_users (
   ers_users_id    NUMBER        NOT NULL,
   ers_username    VARCHAR2(50)  NOT NULL UNIQUE,
-  ers_password    VARCHAR2(50)  NOT NULL,
+  ers_password    VARCHAR2(100)  NOT NULL,
   user_first_name VARCHAR2(100) NOT NULL,
   user_last_name  VARCHAR2(100) NOT NULL,
   user_email      VARCHAR2(150) NOT NULL UNIQUE,

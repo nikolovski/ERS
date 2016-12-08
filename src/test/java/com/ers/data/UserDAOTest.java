@@ -1,8 +1,8 @@
 package com.ers.data;
 
 import com.ers.ServiceLocator;
-import com.ers.entities.User;
-import com.ers.entities.UserRole;
+import com.ers.beans.User;
+import com.ers.beans.UserRole;
 import junit.framework.TestCase;
 
 import java.sql.Connection;
@@ -33,6 +33,11 @@ public class UserDAOTest extends TestCase {
         for (User user:users) {
             System.out.println(user);
         }
+    }
+
+    public void testQueryByUsernameOrEmail() throws Exception {
+        System.out.println(new UserDAO(connection).queryByUsername("bclarkm"));
+        System.out.println(new UserDAO(connection).queryByEmail("mnikolovski@testm.com"));
     }
 
     public void testQueryById() throws Exception {

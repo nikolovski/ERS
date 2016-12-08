@@ -1,7 +1,7 @@
 package com.ers.data;
 
 import com.ers.ServiceLocator;
-import com.ers.entities.ReimbursementStatus;
+import com.ers.beans.ReimbursementStatus;
 import junit.framework.TestCase;
 
 import java.sql.Connection;

@@ -1,7 +1,6 @@
 package com.ers.data;
 
-import com.ers.DAO;
-import com.ers.entities.UserRole;
+import com.ers.beans.UserRole;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,10 +12,10 @@ import java.util.List;
 /**
  * Created by Martino Nikolovski on 12/3/16.
  */
-public class UserRoleDAO implements DAO<UserRole> {
+class UserRoleDAO implements DAO<UserRole> {
     Connection connection;
 
-    public UserRoleDAO(Connection connection) {
+    UserRoleDAO(Connection connection) {
         this.connection = connection;
     }
 

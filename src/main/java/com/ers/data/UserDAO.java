@@ -1,8 +1,7 @@
 package com.ers.data;
 
-import com.ers.DAO;
-import com.ers.entities.User;
-import com.ers.entities.UserRole;
+import com.ers.beans.User;
+import com.ers.beans.UserRole;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +13,10 @@ import java.util.List;
 /**
  * Created by Martino Nikolovski on 12/3/16.
  */
-public class UserDAO implements DAO<User> {
+class UserDAO implements DAO<User> {
     Connection connection;
 
-    public UserDAO(Connection connection) {
+    UserDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -45,11 +44,34 @@ public class UserDAO implements DAO<User> {
     }
 
     public User queryById(int id) throws SQLException {
+        List<User> userList = new ArrayList<User>();
         String sql = getAllUsers + " WHERE " + userId + "= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
+        mapRows(resultSet, userList);
+        return userList.get(0);
+    }
+    @SuppressWarnings("Duplicates")
+    public User queryByUsername(String username) throws SQLException {
         List<User> userList = new ArrayList<User>();
+        String sql = getAllUsers + " WHERE " + userUsername + " = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null) throw new SQLException();
+        mapRows(resultSet, userList);
+        return userList.get(0);
+    }
+
+    @SuppressWarnings("Duplicates")
+    public User queryByEmail(String email) throws SQLException {
+        List<User> userList = new ArrayList<User>();
+        String sql = getAllUsers + " WHERE " + userEmail + " = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null) throw new SQLException();
         mapRows(resultSet, userList);
         return userList.get(0);
     }
