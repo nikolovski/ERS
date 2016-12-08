@@ -21,61 +21,44 @@ public class ReimbursementStatusDAO implements DAO<ReimbursementStatus> {
     }
 
     public void insert(ReimbursementStatus object) throws SQLException {
-        String sql = "INSERT INTO "+constants.getString("reimbursementStatusTableName")+
+        String sql = "INSERT INTO " + constants.getString("reimbursementStatusTableName") +
                 " VALUES (?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1,getId()+1);
-        preparedStatement.setString(2,object.getStatus());
+        preparedStatement.setInt(1, getId());
+        preparedStatement.setString(2, object.getStatus());
         preparedStatement.executeUpdate();
     }
 
     public List<ReimbursementStatus> queryAll() throws SQLException {
-        try{
-            List<ReimbursementStatus> reimbursementStatusList = new ArrayList<ReimbursementStatus>();
-            //String sql = "SELECT * FROM "+constants.getString("reimbursementStatusTableName");
-            String sql = "SELECT * FROM ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,constants.getString("reimbursementStatusTableName"));
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
-            mapRows(resultSet,reimbursementStatusList);
-            connection.commit();
-            return reimbursementStatusList;
-        }finally {
-            connection.close();
-        }
-
+        List<ReimbursementStatus> reimbursementStatusList = new ArrayList<ReimbursementStatus>();
+        PreparedStatement preparedStatement = connection.prepareStatement(getAllReimbursementStatuses);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        mapRows(resultSet, reimbursementStatusList);
+        return reimbursementStatusList;
     }
 
     public ReimbursementStatus queryById(int id) throws SQLException {
-        try{
-            String sql = "SELECT * FROM "+constants.getString("reimbursementStatusTableName")+" WHERE "+
-                    constants.getString("reimbursementStatusId")+"="+id;
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
-            List<ReimbursementStatus> reimbursementList = new ArrayList<ReimbursementStatus>();
-            mapRows(resultSet,reimbursementList);
-            resultSet.close();
-            return reimbursementList.get(0);
-        }finally {
-            connection.close();
-        }
+        String sql = getAllReimbursementStatuses + " WHERE " + reimbursementStatusId + "= ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<ReimbursementStatus> reimbursementList = new ArrayList<ReimbursementStatus>();
+        mapRows(resultSet, reimbursementList);
+        resultSet.close();
+        return reimbursementList.get(0);
     }
 
     public int getId() throws SQLException {
-        int id;
-        String sql = "SELECT MAX("+constants.getString("reimbursementStatusId")+") FROM "+constants.getString("reimbursementTableName");
+        int id = 0;
+        String sql = "SELECT MAX(" + reimbursementStatusId + ") FROM " + reimbursementStatusTableName;
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery(sql);
-        if(resultSet.next()){
-            id = resultSet.getInt(1);
-            resultSet.close();
-            return id;
-        }
-        else throw new SQLException();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) id = resultSet.getInt(1) + 1;
+        return id;
     }
 
     public void mapRows(ResultSet resultSet, List<ReimbursementStatus> list) throws SQLException {
-        while(resultSet.next()){
+        while (resultSet.next()) {
             ReimbursementStatus reimbursementStatus = new ReimbursementStatus(
                     resultSet.getInt(1),
                     resultSet.getString(2)

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
  */
 public interface ResourceHelper {
     ResourceBundle constants = ResourceBundle.getBundle("constants");
+
     //Table names
     String reimbursementTableName = constants.getString("reimbursementTableName");
     String userTableName = constants.getString("userTableName");
@@ -88,5 +89,14 @@ public interface ResourceHelper {
     //Select all users
     String getAllUsers = "SELECT * FROM " + userTableName +
             " INNER JOIN " + userRoleTableName + " ON " + roleId + " = " + userRoleId;
+
+    //Select all Reimbursement Statuses
+    String getAllReimbursementStatuses = "SELECT * FROM "+reimbursementStatusTableName;
+
+    //Select all Reimbursement Types
+    String getAllReimbursementTypes= "SELECT * FROM "+reimbursementTypeTableName;
+
+    //Select all User Roles
+    String getAllUserRoles = "SELECT * FROM "+userRoleTableName;
 
 }
