@@ -3,5 +3,5 @@ $('.login-input').on('focus', function() {
 });
 
 $('.login').on('submit', function(e) {
-  $('.login').removeClass('focused').addClass('loading');
+  $('#login.login').removeClass('focused').addClass('loading');
 });
