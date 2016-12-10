@@ -18,10 +18,10 @@ public class FrontController extends HttpServlet {
         String requestURI = req.getRequestURI();
         UserController userController = new UserController();
         switch (requestURI){
-            case "/ERS/login.do":
+            case "/ers/login.do":
                 userController.login(req,resp);
                 break;
-            case "/ERS/register.do":
+            case "/ers/register.do":
                 userController.register(req,resp);
                 break;
             default:

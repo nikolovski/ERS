@@ -14,10 +14,15 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+      <!--<dependency>-->
+          <!--<groupId>org.junit.jupiter</groupId>-->
+          <!--<artifactId>junit-jupiter-api</artifactId>-->
+          <!--<version>RELEASE</version>-->
+      <!--</dependency>-->
       <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter-api</artifactId>
-          <version>RELEASE</version>
+          <groupId>org.mindrot</groupId>
+          <artifactId>jbcrypt</artifactId>
+          <version>0.3m</version>
       </dependency>
   </dependencies>
   <build>

@@ -234,10 +234,12 @@
                 <input type="text" placeholder="Username" name="new_username" class="login-input register" required/>
                 <input type="password" placeholder="Password" name="new_password" class="login-input register"
                        required/>
-                <select name="role_id">
-                    <option value="1">Admin</option>
-                    <option value="2">DBA</option>
+                <span>
+                    <select name="role_id" class="form-control">
+                    <option value="1">Finance Manager</option>
+                    <option value="2">Employee</option>
                 </select>
+                </span>
                 <button type="submit" class="login-btn" form="register">register</button>
             </form>
         </span>
