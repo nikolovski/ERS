@@ -14,15 +14,38 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
 
     @Override
+    public void init() throws ServletException {
+//        this.getServletConfig().getServletContext().setAttribute("roles",
+//                new UserRoleController().getRoles());
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        switch (req.getRequestURI()){
+            case "/ers/pending.do":
+                new ReimbursementController().pending(req,resp);
+                break;
+            case "/ers/approved.do":
+                new ReimbursementController().approved(req,resp);
+                break;
+            case "/ers/declined.do":
+                new ReimbursementController().declined(req,resp);
+                break;
+        }
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String requestURI = req.getRequestURI();
-        UserController userController = new UserController();
-        switch (requestURI){
+        switch (req.getRequestURI()){
             case "/ers/login.do":
-                userController.login(req,resp);
+                new UserController().login(req,resp);
                 break;
             case "/ers/register.do":
-                userController.register(req,resp);
+                new UserController().register(req,resp);
+                break;
+            case "/ers/approve.do":
+                new UserController().approve(req,resp);
                 break;
             default:
                 resp.setStatus(404);

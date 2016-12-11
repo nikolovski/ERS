@@ -86,7 +86,7 @@ class ReimbursementDAO implements DAO<Reimbursement> {
 
     public List<Reimbursement> queryPending() throws SQLException {
         List<Reimbursement> reimbursementList = new ArrayList<Reimbursement>();
-        String sql = getAllReimbursements + " WHERE reimbursement."+reimbStatusId+" = 2";
+        String sql = getAllReimbursements + " WHERE reimbursement." + reimbStatusId + " = 2";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
         mapRows(resultSet, reimbursementList);
@@ -155,5 +155,27 @@ class ReimbursementDAO implements DAO<Reimbursement> {
             );
             list.add(reimbursement);
         }
+    }
+
+    public List<Reimbursement> queryAccepted(User user) throws SQLException {
+        List<Reimbursement> reimbursementList = new ArrayList<Reimbursement>();
+        String sql = getAllReimbursements + " WHERE reimbursement." + reimbStatusId + " = 1 " +
+                "AND " + reimbursementResolver + " = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, user.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        mapRows(resultSet, reimbursementList);
+        return reimbursementList;
+    }
+
+    public List<Reimbursement> queryDeclined(User user) throws SQLException {
+        List<Reimbursement> reimbursementList = new ArrayList<Reimbursement>();
+        String sql = getAllReimbursements + " WHERE reimbursement." + reimbStatusId + " = 3 " +
+                "AND " + reimbursementResolver + " = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, user.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        mapRows(resultSet, reimbursementList);
+        return reimbursementList;
     }
 }

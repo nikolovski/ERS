@@ -1,12 +1,14 @@
 package com.revature.ers.middle;
 
 import com.revature.ers.Authentication;
+import com.revature.ers.beans.Reimbursement;
 import com.revature.ers.beans.User;
 import com.revature.ers.beans.UserRole;
 import com.revature.ers.data.DataFacade;
 import com.revature.ers.exceptions.ExistingUserException;
 
 import javax.naming.AuthenticationException;
+import java.util.List;
 
 /**
  * Created by Martino Nikolovski on 12/8/16.
@@ -37,5 +39,13 @@ class UserService {
     boolean userExists(String username, String email) {
         return new DataFacade().getUserByEmail(email) != null &&
                 new DataFacade().getUserByUsername(username) != null;
+    }
+
+    public List<Reimbursement> getApprovedReimbursements(User user) {
+        return new DataFacade().getAllApprovedReimbursements(user);
+    }
+
+    public List<Reimbursement> getDeclinedReimbursements(User user) {
+        return new DataFacade().getAllDeclinedReimbursements(user);
     }
 }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -33,7 +34,7 @@
             height: 20rem;
             background: #fff;
             border-radius: 5px;
-            margin-bottom: 5%;
+            margin-bottom: 10%;
             overflow: hidden;
         }
 
@@ -204,10 +205,18 @@
 
         footer {
             background-color: white;
-            padding-top: 2%;
-            padding-bottom: 2%;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            /*padding-top: 2%;*/
+            /*padding-bottom: 2%;*/
             font-family: 'Oswald', sans-serif;
             font-size: 3em;
+        }
+        @media all and (max-width: 575px) {
+            footer{
+                visibility: hidden;
+            }
         }
     </style>
 </head>
@@ -219,8 +228,8 @@
         <span class="col-xs-12 col-sm-5 col-md-5 col-lg-5 login">
             <header class="login-header"><span class="text">LOGIN</span><span class="loader"></span></header>
             <form id="login" class="login-form" action="login.do" method="post">
-                <input type="text" placeholder="Username" name="username" class="login-input" required/>
-                <input type="password" placeholder="Password" name="password" class="login-input" required/>
+                <input type="text" placeholder="Username" name="username" class="login-input" required autocomplete="on"/>
+                <input type="password" placeholder="Password" name="password" class="login-input" required />
                 <button type="submit" class="login-btn" form="login">login</button>
             </form>
         </span>
@@ -234,18 +243,19 @@
                 <input type="text" placeholder="Username" name="new_username" class="login-input register" required/>
                 <input type="password" placeholder="Password" name="new_password" class="login-input register"
                        required/>
+                <br>
                 <span>
-                    <select name="role_id" class="form-control">
-                    <option value="1">Finance Manager</option>
-                    <option value="2">Employee</option>
-                </select>
+                    <select name="role_id" class="form-control" style="width:12em;">
+                        <option value="1">Finance Manager</option>
+                        <option value="2">Employee</option>
+                    </select>
                 </span>
                 <button type="submit" class="login-btn" form="register">register</button>
             </form>
         </span>
     </div>
 </div>
-<footer class="row">
+<footer>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" align="center" style="text-align: center; margin-bottom: 3%">
         <img src="https://revature.com/imgs/logo.png" alt="Revature logo">
     </div>

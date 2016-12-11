@@ -165,7 +165,7 @@ public class DataFacade {
         }
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         List<User> list = null;
         try {
             connection = ServiceLocator.getERSDatabase().getConnection();
@@ -219,7 +219,7 @@ public class DataFacade {
         }
     }
 
-    public List<UserRole> getAllRoles(){
+    public List<UserRole> getAllRoles() {
         List<UserRole> userRoles = null;
         try {
             connection = ServiceLocator.getERSDatabase().getConnection();
@@ -231,13 +231,13 @@ public class DataFacade {
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 return userRoles;
             }
         }
     }
 
-    public UserRole getRole(int id){
+    public UserRole getRole(int id) {
         UserRole role = null;
         try {
             connection = ServiceLocator.getERSDatabase().getConnection();
@@ -256,5 +256,40 @@ public class DataFacade {
     }
 
 
+    public List<Reimbursement> getAllApprovedReimbursements(User user) {
+        List<Reimbursement> reimbursements = null;
+        try {
+            connection = ServiceLocator.getERSDatabase().getConnection();
+            reimbursements = new ReimbursementDAO(connection).queryAccepted(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                return reimbursements;
+            }
+        }
 
+    }
+
+    public List<Reimbursement> getAllDeclinedReimbursements(User user) {
+        List<Reimbursement> reimbursements = null;
+        try {
+            connection = ServiceLocator.getERSDatabase().getConnection();
+            reimbursements = new ReimbursementDAO(connection).queryDeclined(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                return reimbursements;
+            }
+        }
+    }
 }

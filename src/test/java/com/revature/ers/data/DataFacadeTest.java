@@ -88,4 +88,13 @@ public class DataFacadeTest extends TestCase {
             System.out.println(user);
         }
     }
+    public void testGetAllApprovedReimbursements() throws Exception{
+        User user = new User();
+        user.setId(3);
+        List<Reimbursement> reimbursements = new DataFacade().getAllApprovedReimbursements(user);
+        for (Reimbursement reimb:
+             reimbursements) {
+            System.out.println(reimb);
+        }
+    }
 }

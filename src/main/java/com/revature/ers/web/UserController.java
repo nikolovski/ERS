@@ -1,6 +1,7 @@
 package com.revature.ers.web;
 
 
+import com.revature.ers.beans.Reimbursement;
 import com.revature.ers.beans.User;
 import com.revature.ers.exceptions.ExistingUserException;
 import com.revature.ers.middle.BusinessDelegate;
@@ -10,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Martino Nikolovski on 12/8/16.
@@ -20,7 +22,11 @@ class UserController {
         String password = req.getParameter("password");
         try {
             User user = new BusinessDelegate().login(username,password);
+            List<Reimbursement> pending = new BusinessDelegate().pendingReimbursements();
+            user.setPassword(null);
             req.getSession().setAttribute("userData",user);
+            req.getSession().setAttribute("reimbursements",pending);
+            req.getSession().setAttribute("selectedTab", "pending");
             req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
         } catch (AuthenticationException e) {
             req.setAttribute("authFailed",e.getMessage());
@@ -44,7 +50,12 @@ class UserController {
             req.getRequestDispatcher("index.jsp").forward(req,resp);
         } catch (ExistingUserException e) {
             req.setAttribute("registerFailed",e.getMessage());
-            req.getRequestDispatcher("index.jsp");
+            req.getRequestDispatcher("index.jsp").forward(req,resp);
         }
+    }
+
+    public void approve(HttpServletRequest req, HttpServletResponse resp) {
+        String reimbursement = req.getParameter("reimb");
+        System.out.println(reimbursement);
     }
 }
