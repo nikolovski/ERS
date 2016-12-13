@@ -1,9 +1,7 @@
 package com.revature.ers.data;
 
 import com.revature.ers.ServiceLocator;
-import com.revature.ers.beans.Reimbursement;
-import com.revature.ers.beans.User;
-import com.revature.ers.beans.UserRole;
+import com.revature.ers.beans.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -289,6 +287,58 @@ public class DataFacade {
                 e.printStackTrace();
             } finally {
                 return reimbursements;
+            }
+        }
+    }
+
+    public List<Reimbursement> updateBulk(List<Reimbursement> updated) {
+        //TODO finish this update bulk function
+        List<Reimbursement> reimbursements = null;
+        try {
+            connection = ServiceLocator.getERSDatabase().getConnection();
+            connection.setAutoCommit(false);
+            ReimbursementDAO reimbursementDAO = new ReimbursementDAO(connection);
+            for (Reimbursement reimb:
+                 updated) {
+                if(reimb.getReimbStatus().getId()==1)
+                    reimbursementDAO.approve(reimb,true);
+                else if(reimb.getReimbStatus().getId()==3)
+                    reimbursementDAO.approve(reimb,false);
+            }
+            connection.commit();
+            reimbursements = reimbursementDAO.queryPending();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                return reimbursements;
+            }
+        }
+    }
+
+    public List<ReimbursementType> getAllReimbursementTypes() {
+        List<ReimbursementType> types = null;
+        try {
+            connection = ServiceLocator.getERSDatabase().getConnection();
+            types = new ReimbursementTypeDAO(connection).queryAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                return types;
             }
         }
     }

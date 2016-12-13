@@ -71,10 +71,11 @@ class ReimbursementDAO implements DAO<Reimbursement> {
     }
 
     public void approve(Reimbursement reimbursement, boolean approve) throws SQLException {
+        //TODO finish this to update other fields
         String sql;
         if (approve)
             sql = "UPDATE " + reimbursementTableName +
-                    " SET " + reimbStatusId + "= 1" +
+                    " SET " + reimbStatusId + "= 1," +
                     " WHERE " + reimbursementId + "= ?";
         else sql = "UPDATE " + reimbursementTableName +
                 " SET " + reimbStatusId + "= 3" +

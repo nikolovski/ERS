@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,5 +35,32 @@ public class ReimbursementController {
         req.getSession().setAttribute("reimbursements", reimbursements);
         req.getSession().setAttribute("selectedTab", "declined");
         req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
+    }
+    public void updateReimbursements(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Reimbursement> reimbursementList = (List<Reimbursement>) req.getSession().getAttribute("reimbursements");
+        List<Reimbursement> updatedReimbursements = new ArrayList<>();
+        User user = (User) req.getSession().getAttribute("userData");
+        Reimbursement temp;
+        if(req.getParameterValues("approved")!=null)
+            for (String id : req.getParameterValues("approved")){
+                temp = reimbursementList.get(Integer.parseInt(id));
+                temp.setReimbResolver(user);
+                temp.getReimbStatus().setId(1);
+                temp.getReimbStatus().setStatus("Approved");
+                temp.setReimbResolved(new Timestamp(System.currentTimeMillis()));
+                updatedReimbursements.add(temp);
+            }
+        if(req.getParameterValues("denied")!=null)
+            for (String id : req.getParameterValues("denied")){
+                temp = reimbursementList.get(Integer.parseInt(id));
+                temp.setReimbResolver(user);
+                temp.getReimbStatus().setId(3);
+                temp.getReimbStatus().setStatus("Denied");
+                temp.setReimbResolved(new Timestamp(System.currentTimeMillis()));
+                updatedReimbursements.add(temp);
+            }
+
+        req.getSession().setAttribute("reimbursements",new BusinessDelegate().updateReimbursements(updatedReimbursements));
+        req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
     }
 }

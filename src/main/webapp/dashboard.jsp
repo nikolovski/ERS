@@ -1,4 +1,7 @@
-<%--
+<%@ page import="com.revature.ers.beans.Reimbursement" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: d4k1d23
   Date: 12/8/16
@@ -38,7 +41,7 @@
     </style>
     <script>
         $(document).ready(function() {
-            $('#example').DataTable();
+            $('#reimbursementTable').DataTable();
         } );
     </script>
 
@@ -52,44 +55,58 @@
             <h1>wuuuut</h1>
         </c:otherwise>
     </c:choose>
-    <table id="example" class="table table-condensed table-striped table-bordered table-responsive" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Submitted On</th>
-                <th>Submitted By</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Receipt</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="reimb" items="${reimbursements}">
-                <tr>
-                    <form id="approve${reimb.id}" action="/ers/approve.do">
-                        <input type="text" hidden value="${reimb}" name="reimb">
-                    </form>
-                    <form id="decline${reimb.id}" action="/ers/decline.do">
-                        <input type="text" hidden value="${reimb}" name="reimb">
-                    </form>
-                    <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
-                    <td><c:out value="${reimb.reimbAuthor.firstName} ${reimb.reimbAuthor.lastName}"/></td>
-                    <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
-                    <td><c:out value="${reimb.reimbType.type}"/></td>
-                    <td><c:out value="${reimb.reimbDescription}"/></td>
-                    <td><c:out value="${reimb.reimbReceipt}"/></td>
-                    <td><button type="submit" class="btn btn-success" form="approve${reimb.id}">
-                        <span class="glyphicon glyphicon-ok"></span>
-                    </button></td>
-                    <td><button type="submit" class="btn btn-danger" form="decline${reimb.id}">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button></td>
-
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+    <c:if test="${userData.role.id ==1}">
+        <form id = "updateReimbursements" action="/ers/updateReimbursements.do" method="post">
+            <button type="submit" onclick="submitForm();" class="btn btn-success" style="margin-bottom: 5px;">Submit revisions</button>
+            <table id="reimbursementTable" class="table table-condensed table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Submitted On</th>
+                        <th>Submitted By</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Receipt</th>
+                        <th><span class="glyphicon glyphicon-ok"></span></th>
+                        <th><span class="glyphicon glyphicon-remove"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="reimb" items="${reimbursements}">
+                        <tr>
+                            <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
+                            <td><c:out value="${reimb.reimbAuthor.firstName} ${reimb.reimbAuthor.lastName}"/></td>
+                            <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
+                            <td><c:out value="${reimb.reimbType.type}"/></td>
+                            <td><c:out value="${reimb.reimbDescription}"/></td>
+                            <td><c:out value="${reimb.reimbReceipt}"/></td>
+                            <td>
+                                <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}" value="${reimbursements.indexOf(reimb)}" name="approved">
+                            </td>
+                            <td>
+                                <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}" value="${reimbursements.indexOf(reimb)}" name="denied">
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+    </form>
 </body>
+<script>
+    /**
+     * This function allows checking only one checkbox for each reimbursement
+     * @param reimb_cb Approve or deny checkbox element
+     * @param reimb_id The id required to refer to the specific row of choice
+     */
+    function toggleCheck(reimb_cb,reimb_id) {
+        var reimbStatus = document.getElementsByClassName("choice"+reimb_id);
+        for(var i in reimbStatus) reimbStatus[i].checked = false;
+        reimb_cb.checked = true;
+    }
+    
+    function submitForm() {
+        document.getElementById("updateReimbursements").submit();
+    }
+</script>
 </html>

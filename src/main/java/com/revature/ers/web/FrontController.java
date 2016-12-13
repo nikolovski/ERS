@@ -44,8 +44,8 @@ public class FrontController extends HttpServlet {
             case "/ers/register.do":
                 new UserController().register(req,resp);
                 break;
-            case "/ers/approve.do":
-                new UserController().approve(req,resp);
+            case "/ers/updateReimbursements.do":
+                new ReimbursementController().updateReimbursements(req,resp);
                 break;
             default:
                 resp.setStatus(404);

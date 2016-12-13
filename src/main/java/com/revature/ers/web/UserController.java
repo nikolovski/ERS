@@ -22,10 +22,18 @@ class UserController {
         String password = req.getParameter("password");
         try {
             User user = new BusinessDelegate().login(username,password);
-            List<Reimbursement> pending = new BusinessDelegate().pendingReimbursements();
             user.setPassword(null);
             req.getSession().setAttribute("userData",user);
-            req.getSession().setAttribute("reimbursements",pending);
+            if(user.getRole().getId()==1){
+                List<Reimbursement> pending = new BusinessDelegate().pendingReimbursements();
+                req.getSession().setAttribute("reimbursements",pending);
+            }
+            else{
+//                List<ReimbursementType> types = new BusinessDelegate();
+            }
+
+
+//            req.getSession().setAttribute("reimbTypes",);
             req.getSession().setAttribute("selectedTab", "pending");
             req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
         } catch (AuthenticationException e) {
@@ -52,10 +60,5 @@ class UserController {
             req.setAttribute("registerFailed",e.getMessage());
             req.getRequestDispatcher("index.jsp").forward(req,resp);
         }
-    }
-
-    public void approve(HttpServletRequest req, HttpServletResponse resp) {
-        String reimbursement = req.getParameter("reimb");
-        System.out.println(reimbursement);
     }
 }

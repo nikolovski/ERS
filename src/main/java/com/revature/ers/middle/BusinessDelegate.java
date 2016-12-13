@@ -1,8 +1,6 @@
 package com.revature.ers.middle;
 
-import com.revature.ers.beans.Reimbursement;
-import com.revature.ers.beans.User;
-import com.revature.ers.beans.UserRole;
+import com.revature.ers.beans.*;
 import com.revature.ers.exceptions.ExistingUserException;
 
 import javax.naming.AuthenticationException;
@@ -38,5 +36,9 @@ public class BusinessDelegate {
 
     public List<Reimbursement> declinedReimbursements(User user) {
         return new UserService().getDeclinedReimbursements(user);
+    }
+
+    public List<Reimbursement> updateReimbursements(List<Reimbursement> updated) {
+        return new ReimbursementService().updateBulk(updated);
     }
 }

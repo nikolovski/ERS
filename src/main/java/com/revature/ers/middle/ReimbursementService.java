@@ -12,4 +12,8 @@ class ReimbursementService {
     List<Reimbursement> getPending(){
         return new DataFacade().getAllPendingReimbursements();
     }
+
+    public List<Reimbursement> updateBulk(List<Reimbursement> updated) {
+        return new DataFacade().updateBulk(updated);
+    }
 }
