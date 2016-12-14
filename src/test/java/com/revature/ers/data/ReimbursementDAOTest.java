@@ -45,7 +45,7 @@ public class ReimbursementDAOTest extends TestCase {
     }
 
     public void testApprove() throws Exception {
-        Reimbursement reimbursement = new ReimbursementDAO(connection).queryById(8);
+        Reimbursement reimbursement = new ReimbursementDAO(connection).queryById(9);
         new ReimbursementDAO(connection).approve(reimbursement, true);
     }
 

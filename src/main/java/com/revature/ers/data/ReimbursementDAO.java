@@ -75,13 +75,19 @@ class ReimbursementDAO implements DAO<Reimbursement> {
         String sql;
         if (approve)
             sql = "UPDATE " + reimbursementTableName +
-                    " SET " + reimbStatusId + "= 1," +
+                    " SET " + reimbStatusId + "= 1, " +
+                    reimbursementResolved+"= ?, " +
+                    reimbursementResolver+"= ? " +
                     " WHERE " + reimbursementId + "= ?";
         else sql = "UPDATE " + reimbursementTableName +
-                " SET " + reimbStatusId + "= 3" +
+                " SET " + reimbStatusId + "= 3, " +
+                        reimbursementResolved+"= ?, " +
+                        reimbursementResolver+"= ? " +
                 " WHERE " + reimbursementId + "= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, reimbursement.getId());
+        preparedStatement.setTimestamp(1, reimbursement.getReimbResolved());
+        preparedStatement.setInt(2, reimbursement.getReimbResolver().getId());
+        preparedStatement.setInt(3, reimbursement.getId());
         preparedStatement.executeUpdate();
     }
 
