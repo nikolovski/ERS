@@ -61,6 +61,7 @@ public class ReimbursementController {
             }
 
         req.getSession().setAttribute("reimbursements",new BusinessDelegate().updateReimbursements(updatedReimbursements));
+        req.getSession().setAttribute("selectedTab", "pending");
         req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
     }
 }
