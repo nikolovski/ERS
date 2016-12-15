@@ -13,17 +13,29 @@ import java.util.List;
 public class DataFacade {
     private Connection connection;
 
-    public void insertReimbursement(Reimbursement reimbursement) {
+    public List<Reimbursement> insertReimbursement(Reimbursement reimbursement) {
+        List<Reimbursement> reimbursementList = null;
         try {
             connection = ServiceLocator.getERSDatabase().getConnection();
-            new ReimbursementDAO(connection).insert(reimbursement);
+            connection.setAutoCommit(false);
+            ReimbursementDAO reimbursementDAO = new ReimbursementDAO(connection);
+            reimbursementDAO.insert(reimbursement);
+            connection.commit();
+            reimbursementList = reimbursementDAO.queryByUser(reimbursement.getReimbAuthor(),1);
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                return reimbursementList;
             }
         }
     }

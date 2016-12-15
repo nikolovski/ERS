@@ -16,4 +16,8 @@ class ReimbursementService {
     public List<Reimbursement> updateBulk(List<Reimbursement> updated) {
         return new DataFacade().updateBulk(updated);
     }
+
+    public List<Reimbursement> insertReimbursement(Reimbursement reimbursement) {
+        return new DataFacade().insertReimbursement(reimbursement);
+    }
 }

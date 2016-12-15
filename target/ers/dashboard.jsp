@@ -79,7 +79,13 @@
                             <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
                             <td><c:out value="${reimb.reimbType.type}"/></td>
                             <td><c:out value="${reimb.reimbDescription}"/></td>
-                            <td><c:out value="${reimb.reimbReceipt}"/></td>
+                            <td>
+                                <form action="get_receipt.do" method="get" enctype="multipart/form-data">
+                                    <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
+                                    <input type="submit" value="Submit">
+                                </form>
+                                <%--<button type="button" onclick="getFile(this)" id=${reimbursements.indexOf(reimb)}>Receipt</button>--%>
+                            </td>
                             <c:if test="${selectedTab eq 'pending'}">
                                 <td>
                                     <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}" value="${reimbursements.indexOf(reimb)}" name="approved">
@@ -113,6 +119,14 @@
     
     function submitForm() {
         document.getElementById("updateReimbursements").submit();
+    }
+    function getFile(button) {
+        $.ajax({
+            method: "GET",
+            contentType: 'multipart/form-data',
+            url: ${initParam['localURL']}+"/get_receipt.do",
+            data: {reimbId: button.getAttribute('id')}
+        });
     }
 </script>
 </html>

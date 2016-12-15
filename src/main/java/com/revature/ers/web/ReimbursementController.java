@@ -1,13 +1,17 @@
 package com.revature.ers.web;
 
 import com.revature.ers.beans.Reimbursement;
+import com.revature.ers.beans.ReimbursementStatus;
+import com.revature.ers.beans.ReimbursementType;
 import com.revature.ers.beans.User;
 import com.revature.ers.middle.BusinessDelegate;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +40,14 @@ public class ReimbursementController {
         req.getSession().setAttribute("selectedTab", "declined");
         req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
     }
+
     public void updateReimbursements(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Reimbursement> reimbursementList = (List<Reimbursement>) req.getSession().getAttribute("reimbursements");
         List<Reimbursement> updatedReimbursements = new ArrayList<>();
         User user = (User) req.getSession().getAttribute("userData");
         Reimbursement temp;
-        if(req.getParameterValues("approved")!=null)
-            for (String id : req.getParameterValues("approved")){
+        if (req.getParameterValues("approved") != null)
+            for (String id : req.getParameterValues("approved")) {
                 temp = reimbursementList.get(Integer.parseInt(id));
                 temp.setReimbResolver(user);
                 temp.getReimbStatus().setId(1);
@@ -50,8 +55,8 @@ public class ReimbursementController {
                 temp.setReimbResolved(new Timestamp(System.currentTimeMillis()));
                 updatedReimbursements.add(temp);
             }
-        if(req.getParameterValues("denied")!=null)
-            for (String id : req.getParameterValues("denied")){
+        if (req.getParameterValues("denied") != null)
+            for (String id : req.getParameterValues("denied")) {
                 temp = reimbursementList.get(Integer.parseInt(id));
                 temp.setReimbResolver(user);
                 temp.getReimbStatus().setId(3);
@@ -60,18 +65,48 @@ public class ReimbursementController {
                 updatedReimbursements.add(temp);
             }
 
-        req.getSession().setAttribute("reimbursements",new BusinessDelegate().updateReimbursements(updatedReimbursements));
+        req.getSession().setAttribute("reimbursements", new BusinessDelegate().updateReimbursements(updatedReimbursements));
         req.getSession().setAttribute("selectedTab", "pending");
+        req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
+    }
+
+    public void insertReimbursement(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        //TODO finish the insertions
+        ReimbursementType reimbursementType = new ReimbursementType(Integer.parseInt(req.getParameter("type")), null);
+        ReimbursementStatus reimbursementStatus = new ReimbursementStatus(2, null);
+        Double amount = Double.parseDouble(req.getParameter("amount"));
+        String description = req.getParameter("description");
+        Part filePart = req.getPart("receipt");
+        User author = (User) req.getSession().getAttribute("userData");
+        InputStream receipt = filePart.getInputStream();
+        Reimbursement reimbursement = new Reimbursement(
+                1, amount,
+                new Timestamp(System.currentTimeMillis()),
+                null,
+                description,
+                receipt,
+                author,
+                null,
+                reimbursementStatus,
+                reimbursementType
+        );
+        req.getSession().setAttribute("reimbursements", new BusinessDelegate().insertReimbursement(reimbursement));
         req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
     }
 
-    public void insertReimbursement(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        //TODO finish the insertion
-        resp.getWriter().println(
-                req.getParameter("type") + " "+
-                req.getParameter("amount") + " "+
-                req.getParameter("description") + " "+
-                req.getParameter("receipt")
-        );
+    public void getReceipt(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        List<Reimbursement> reimbursementList = (List<Reimbursement>) req.getSession().getAttribute("reimbursements");
+        Reimbursement reimbursement = reimbursementList.get(Integer.parseInt(req.getParameter("reimbId")));
+
+        InputStream inputStream = reimbursement.getReimbReceipt();
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+        OutputStream outStream = resp.getOutputStream();
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+        outStream.flush();
+        outStream.close();
+
     }
 }

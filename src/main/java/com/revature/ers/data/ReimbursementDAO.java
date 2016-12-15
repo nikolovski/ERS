@@ -126,7 +126,7 @@ class ReimbursementDAO implements DAO<Reimbursement> {
                     resultSet.getTimestamp(reimbursementSubmitted),
                     resultSet.getTimestamp(reimbursementResolved),
                     resultSet.getString(reimbursementDescription),
-                    resultSet.getBlob(reimbursementReceipt),
+                    resultSet.getBinaryStream(reimbursementReceipt),
                     new User(
                             resultSet.getInt("author_id"),
                             resultSet.getString("author_un"),

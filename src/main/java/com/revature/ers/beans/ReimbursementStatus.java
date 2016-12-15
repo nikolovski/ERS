@@ -18,10 +18,9 @@ public class ReimbursementStatus implements ResourceHelper {
      * @param id the id of the status
      * @param status the name of the status
      */
-    public ReimbursementStatus(int id, String status) throws StringLengthException {
+    public ReimbursementStatus(int id, String status){
         this.id = id;
-        if(validateStatusLength(status)) this.status = status;
-        else throw new StringLengthException();
+        this.status = status;
     }
 
     public int getId() {
@@ -37,19 +36,7 @@ public class ReimbursementStatus implements ResourceHelper {
     }
 
     public void setStatus(String status) throws StringLengthException {
-        if(validateStatusLength(status)) this.status = status;
-        else throw new StringLengthException();
-    }
-
-    /**
-     * Method for validating the length of the status name
-     * @param status String that needs to be validated
-     * @return true if the string is valid
-     */
-    private boolean validateStatusLength(String status){
-        if(status==null || status.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("reimbursementStatus.status.length"));
-        return  status.length()<=length? true:false;
+        this.status = status;
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.revature.ers.beans;
 import com.revature.ers.ResourceHelper;
 import com.revature.ers.exceptions.StringLengthException;
 
-import java.sql.Blob;
+import java.io.InputStream;
 import java.sql.Timestamp;
 
 /**
@@ -16,7 +16,7 @@ public class Reimbursement implements ResourceHelper {
     private Timestamp reimbSubmitted;
     private Timestamp reimbResolved;
     private String reimbDescription;
-    private Blob reimbReceipt;
+    private InputStream reimbReceipt;
     private User reimbAuthor;
     private User reimbResolver;
     private ReimbursementStatus reimbStatus;
@@ -41,7 +41,7 @@ public class Reimbursement implements ResourceHelper {
                          Timestamp reimbSubmitted,
                          Timestamp reimbResolved,
                          String reimbDescription,
-                         Blob reimbReceipt,
+                         InputStream reimbReceipt,
                          User reimbAuthor,
                          User reimbResolver,
                          ReimbursementStatus reimbStatus,
@@ -100,11 +100,11 @@ public class Reimbursement implements ResourceHelper {
         else throw new StringLengthException();
     }
 
-    public Blob getReimbReceipt() {
+    public InputStream getReimbReceipt() {
         return reimbReceipt;
     }
 
-    public void setReimbReceipt(Blob reimbReceipt) {
+    public void setReimbReceipt(InputStream reimbReceipt) {
         this.reimbReceipt = reimbReceipt;
     }
 

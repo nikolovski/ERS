@@ -45,4 +45,8 @@ public class BusinessDelegate {
     public List<ReimbursementType> getTypes() {
         return new ReimbursementTypeService().getReimbursementTypes();
     }
+
+    public List<Reimbursement> insertReimbursement(Reimbursement reimbursement) {
+        return new ReimbursementService().insertReimbursement(reimbursement);
+    }
 }

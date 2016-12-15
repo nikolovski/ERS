@@ -1,6 +1,7 @@
 package com.revature.ers.web;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import java.io.IOException;
  * Created by d4k1d23 on 12/8/16.
  */
 @WebServlet(urlPatterns = "*.do")
+@MultipartConfig(maxFileSize = 1024*1024*5)
 public class FrontController extends HttpServlet {
 
     @Override
@@ -31,6 +33,9 @@ public class FrontController extends HttpServlet {
                 break;
             case "/ers/declined.do":
                 new ReimbursementController().declined(req,resp);
+                break;
+            case "/ers/get_receipt.do":
+                new ReimbursementController().getReceipt(req,resp);
                 break;
         }
     }

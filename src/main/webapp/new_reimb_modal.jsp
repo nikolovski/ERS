@@ -14,7 +14,7 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">Submit Request</h4>
             </div>
             <div class="modal-body">
-                <form id="new_reimbursement" action="/ers/new_reimbursement.do" method="post">
+                <form id="new_reimbursement" action="/ers/new_reimbursement.do" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <div class="input-group">
