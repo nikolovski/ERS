@@ -64,4 +64,14 @@ public class ReimbursementController {
         req.getSession().setAttribute("selectedTab", "pending");
         req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
     }
+
+    public void insertReimbursement(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //TODO finish the insertion
+        resp.getWriter().println(
+                req.getParameter("type") + " "+
+                req.getParameter("amount") + " "+
+                req.getParameter("description") + " "+
+                req.getParameter("receipt")
+        );
+    }
 }

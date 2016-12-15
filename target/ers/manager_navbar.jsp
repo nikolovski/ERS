@@ -20,6 +20,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <c:choose>
+                    <%--TODO counter for number of accepted and declined and pending--%>
                     <c:when test="${selectedTab eq 'pending'}">
                         <li class="active"><a href="/ers/pending.do">New Requests</a></li>
                         <li><a href="/ers/approved.do">Accepted</a></li>

@@ -2,6 +2,7 @@ package com.revature.ers.web;
 
 
 import com.revature.ers.beans.Reimbursement;
+import com.revature.ers.beans.ReimbursementType;
 import com.revature.ers.beans.User;
 import com.revature.ers.exceptions.ExistingUserException;
 import com.revature.ers.middle.BusinessDelegate;
@@ -27,14 +28,12 @@ class UserController {
             if(user.getRole().getId()==1){
                 List<Reimbursement> pending = new BusinessDelegate().pendingReimbursements();
                 req.getSession().setAttribute("reimbursements",pending);
+                req.getSession().setAttribute("selectedTab", "pending");
             }
             else{
-//                List<ReimbursementType> types = new BusinessDelegate();
+                List<ReimbursementType> types = new BusinessDelegate().getTypes();
+                req.getSession().setAttribute("reimbTypes",types);
             }
-
-
-//            req.getSession().setAttribute("reimbTypes",);
-            req.getSession().setAttribute("selectedTab", "pending");
             req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
         } catch (AuthenticationException e) {
             req.setAttribute("authFailed",e.getMessage());

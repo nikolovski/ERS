@@ -19,8 +19,11 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/ers/new_reimbursement.do">New Requests</a></li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#new_reimb">New Reimbursement <span class="glyphicon glyphicon-plus"></span></a>
+                </li>
             </ul>
         </div>
     </div>
+    <%@include file="new_reimb_modal.jsp"%>
 </nav>

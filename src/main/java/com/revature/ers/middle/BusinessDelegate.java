@@ -41,4 +41,8 @@ public class BusinessDelegate {
     public List<Reimbursement> updateReimbursements(List<Reimbursement> updated) {
         return new ReimbursementService().updateBulk(updated);
     }
+
+    public List<ReimbursementType> getTypes() {
+        return new ReimbursementTypeService().getReimbursementTypes();
+    }
 }

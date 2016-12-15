@@ -1,7 +1,4 @@
-<%@ page import="com.revature.ers.beans.Reimbursement" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: d4k1d23
   Date: 12/8/16
@@ -52,14 +49,15 @@
             <%@include file="manager_navbar.jsp"%>
         </c:when>
         <c:otherwise>
-            <h1>wuuuut</h1>
+            <%@include file="employee_navbar.jsp"%>
         </c:otherwise>
     </c:choose>
-    <c:if test="${userData.role.id ==1}">
-        <form id = "updateReimbursements" action="/ers/updateReimbursements.do" method="post">
-            <button type="submit" onclick="submitForm();" class="btn btn-success" style="margin-bottom: 5px;">Submit revisions</button>
-            <table id="reimbursementTable" class="table table-condensed table-striped table-bordered table-responsive" cellspacing="0" width="100%">
-                <thead>
+    <c:choose>
+        <c:when test="${userData.role.id ==1}">
+            <form id = "updateReimbursements" action="/ers/updateReimbursements.do" method="post">
+                <c:if test="${selectedTab eq 'pending'}"><button type="submit" onclick="submitForm();" class="btn btn-success" style="margin-bottom: 5px;">Submit revisions</button></c:if>
+                <table id="reimbursementTable" class="table table-condensed table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                    <thead>
                     <tr>
                         <th>Submitted On</th>
                         <th>Submitted By</th>
@@ -67,11 +65,13 @@
                         <th>Type</th>
                         <th>Description</th>
                         <th>Receipt</th>
-                        <th><span class="glyphicon glyphicon-ok"></span></th>
-                        <th><span class="glyphicon glyphicon-remove"></span></th>
+                        <c:if test="${selectedTab eq 'pending'}">
+                            <th><span class="glyphicon glyphicon-ok"></span></th>
+                            <th><span class="glyphicon glyphicon-remove"></span></th>
+                        </c:if>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <c:forEach var="reimb" items="${reimbursements}">
                         <tr>
                             <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
@@ -80,18 +80,24 @@
                             <td><c:out value="${reimb.reimbType.type}"/></td>
                             <td><c:out value="${reimb.reimbDescription}"/></td>
                             <td><c:out value="${reimb.reimbReceipt}"/></td>
-                            <td>
-                                <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}" value="${reimbursements.indexOf(reimb)}" name="approved">
-                            </td>
-                            <td>
-                                <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}" value="${reimbursements.indexOf(reimb)}" name="denied">
-                            </td>
+                            <c:if test="${selectedTab eq 'pending'}">
+                                <td>
+                                    <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}" value="${reimbursements.indexOf(reimb)}" name="approved">
+                                </td>
+                                <td>
+                                    <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}" value="${reimbursements.indexOf(reimb)}" name="denied">
+                                </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
-    </form>
+                    </tbody>
+                </table>
+            </form>
+        </c:when>
+        <c:otherwise>
+
+        </c:otherwise>
+    </c:choose>
 </body>
 <script>
     /**
