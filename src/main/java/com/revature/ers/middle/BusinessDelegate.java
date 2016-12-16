@@ -49,4 +49,8 @@ public class BusinessDelegate {
     public List<Reimbursement> insertReimbursement(Reimbursement reimbursement) {
         return new ReimbursementService().insertReimbursement(reimbursement);
     }
+
+    public List<Reimbursement> allReimbursements(User user) {
+        return new ReimbursementService().getAllReimbursements(user);
+    }
 }

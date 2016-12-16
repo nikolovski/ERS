@@ -32,7 +32,9 @@ class UserController {
             }
             else{
                 List<ReimbursementType> types = new BusinessDelegate().getTypes();
+                List<Reimbursement> reimbursements = new BusinessDelegate().allReimbursements(user);
                 req.getSession().setAttribute("reimbTypes",types);
+                req.getSession().setAttribute("reimbursements",reimbursements);
             }
             req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
         } catch (AuthenticationException e) {

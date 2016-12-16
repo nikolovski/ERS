@@ -6,7 +6,6 @@ import com.revature.ers.beans.ReimbursementType;
 import com.revature.ers.beans.User;
 import com.revature.ers.middle.BusinessDelegate;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +18,7 @@ import java.util.List;
 /**
  * Created by Martino on 12/11/2016.
  */
+
 public class ReimbursementController {
     public void pending(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Reimbursement> reimbursements = new BusinessDelegate().pendingReimbursements();
@@ -71,7 +71,6 @@ public class ReimbursementController {
     }
 
     public void insertReimbursement(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        //TODO finish the insertions
         ReimbursementType reimbursementType = new ReimbursementType(Integer.parseInt(req.getParameter("type")), null);
         ReimbursementStatus reimbursementStatus = new ReimbursementStatus(2, null);
         Double amount = Double.parseDouble(req.getParameter("amount"));
@@ -107,6 +106,6 @@ public class ReimbursementController {
         }
         outStream.flush();
         outStream.close();
-
+        inputStream.close();
     }
 }

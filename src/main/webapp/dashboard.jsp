@@ -80,11 +80,10 @@
                             <td><c:out value="${reimb.reimbType.type}"/></td>
                             <td><c:out value="${reimb.reimbDescription}"/></td>
                             <td>
-                                <form action="get_receipt.do" method="get" enctype="multipart/form-data">
+                                <form action="get_receipt.do" method="get" target="_blank">
                                     <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
-                                    <input type="submit" value="Submit">
+                                    <input type="submit" value="View Receipt">
                                 </form>
-                                <%--<button type="button" onclick="getFile(this)" id=${reimbursements.indexOf(reimb)}>Receipt</button>--%>
                             </td>
                             <c:if test="${selectedTab eq 'pending'}">
                                 <td>
@@ -101,7 +100,35 @@
             </form>
         </c:when>
         <c:otherwise>
-
+            <table id="reimbursementTable" class="table table-condensed table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Submitted On</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Receipt</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="reimb" items="${reimbursements}">
+                        <tr>
+                            <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
+                            <td><c:out value="${reimb.reimbStatus.status}"/></td>
+                            <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
+                            <td><c:out value="${reimb.reimbType.type}"/></td>
+                            <td><c:out value="${reimb.reimbDescription}"/></td>
+                            <td>
+                                <form action="get_receipt.do" method="get" target="_blank">
+                                    <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
+                                    <input type="submit" value="View Receipt">
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </c:otherwise>
     </c:choose>
 </body>
@@ -119,14 +146,6 @@
     
     function submitForm() {
         document.getElementById("updateReimbursements").submit();
-    }
-    function getFile(button) {
-        $.ajax({
-            method: "GET",
-            contentType: 'multipart/form-data',
-            url: ${initParam['localURL']}+"/get_receipt.do",
-            data: {reimbId: button.getAttribute('id')}
-        });
     }
 </script>
 </html>

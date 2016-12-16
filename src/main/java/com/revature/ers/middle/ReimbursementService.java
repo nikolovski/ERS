@@ -1,6 +1,7 @@
 package com.revature.ers.middle;
 
 import com.revature.ers.beans.Reimbursement;
+import com.revature.ers.beans.User;
 import com.revature.ers.data.DataFacade;
 
 import java.util.List;
@@ -19,5 +20,9 @@ class ReimbursementService {
 
     public List<Reimbursement> insertReimbursement(Reimbursement reimbursement) {
         return new DataFacade().insertReimbursement(reimbursement);
+    }
+
+    public List<Reimbursement> getAllReimbursements(User user) {
+        return new DataFacade().getAllReimbursementsFromAuthor(user);
     }
 }
