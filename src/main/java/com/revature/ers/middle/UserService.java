@@ -28,12 +28,11 @@ class UserService {
         new DataFacade().insertUser(user);
     }
 
-    User userLogin(String username, String password) throws AuthenticationException, NullPointerException {
+    User userLogin(String username, String password) throws NullPointerException {
         User user = new DataFacade().getUserByUsername(username);
         if (Authentication.validatePassword(password, user.getPassword()))
             return user;
-        else throw new AuthenticationException("Invalid credentials!");
-
+        return null;
     }
 
     boolean userExists(String username, String email) {

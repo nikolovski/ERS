@@ -10,7 +10,7 @@ import java.util.List;
  * Created by d4k1d23 on 12/8/16.
  */
 public class BusinessDelegate {
-    public User login(String username, String password) throws AuthenticationException, NullPointerException {
+    public User login(String username, String password) throws NullPointerException {
         return new UserService().userLogin(username, password);
     }
 

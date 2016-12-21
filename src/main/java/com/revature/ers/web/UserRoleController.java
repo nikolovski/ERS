@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Martino on 12/11/2016.
  */
 public class UserRoleController {
-    List<UserRole> getRoles(){
+    public List<UserRole> getRoles(){
         return new BusinessDelegate().getRoles();
     }
 }

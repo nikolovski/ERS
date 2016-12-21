@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Martino Nikolovski on 12/8/16.
  */
-class UserController {
+public class UserController {
     void login (HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException{
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -37,11 +37,9 @@ class UserController {
                 req.getSession().setAttribute("reimbursements",reimbursements);
             }
             req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
-        } catch (AuthenticationException e) {
-            req.setAttribute("authFailed",e.getMessage());
-            req.getRequestDispatcher("index.jsp").forward(req,resp);
         } catch (NullPointerException e){
-            req.setAttribute("authFailed",e.getMessage());
+            System.out.println(e);
+            req.getSession().setAttribute("authFailed","Invalid username/password combination!");
             req.getRequestDispatcher("index.jsp").forward(req,resp);
         }
     }

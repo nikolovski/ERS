@@ -16,12 +16,6 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
 
     @Override
-    public void init() throws ServletException {
-//        this.getServletConfig().getServletContext().setAttribute("roles",
-//                new UserRoleController().getRoles());
-    }
-
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         switch (req.getRequestURI()){
