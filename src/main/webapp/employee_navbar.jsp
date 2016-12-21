@@ -15,13 +15,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#">ERS</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
                     <a href="#" data-toggle="modal" data-target="#new_reimb">New Reimbursement <span class="glyphicon glyphicon-plus"></span></a>
                 </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/ers/logout.do">LogOut</a></li>
             </ul>
         </div>
     </div>

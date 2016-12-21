@@ -15,7 +15,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#">ERS</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -37,6 +37,9 @@
                         <li class="active"><a href="/ers/declined.do">Declined</a></li>
                     </c:when>
                 </c:choose>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/ers/logout.do">LogOut</a></li>
             </ul>
         </div>
     </div>
