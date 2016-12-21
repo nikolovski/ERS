@@ -23,17 +23,17 @@
                     <%--TODO counter for number of accepted and declined and pending--%>
                     <c:when test="${selectedTab eq 'pending'}">
                         <li class="active"><a href="/ers/pending.do">New Requests</a></li>
-                        <li><a href="/ers/approved.do">Accepted</a></li>
+                        <li><a href="/ers/approved.do">Approved</a></li>
                         <li><a href="/ers/declined.do">Declined</a></li>
                     </c:when>
                     <c:when test="${selectedTab eq 'approved'}">
                         <li><a href="/ers/pending.do">New Requests</a></li>
-                        <li class="active"><a href="/ers/approved.do">Accepted</a></li>
+                        <li class="active"><a href="/ers/approved.do">Approved</a></li>
                         <li><a href="/ers/declined.do">Declined</a></li>
                     </c:when>
                     <c:when test="${selectedTab eq 'declined'}">
                         <li><a href="/ers/pending.do">New Requests</a></li>
-                        <li><a href="/ers/approved.do">Accepted</a></li>
+                        <li><a href="/ers/approved.do">Approved</a></li>
                         <li class="active"><a href="/ers/declined.do">Declined</a></li>
                     </c:when>
                 </c:choose>

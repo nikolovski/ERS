@@ -256,8 +256,8 @@
     </div>
 </div>
 <footer>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" align="center" style="text-align: center; margin-bottom: 3%">
-        <img src="https://revature.com/imgs/logo.png" alt="Revature logo">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" align="center" style="text-align: center; padding-top: 5px">
+        <img src="https://3g4d13k75x47q7v53surz1gi-wpengine.netdna-ssl.com/wp-content/themes/revature/imgs/logo.png" alt="Revature logo">
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" align="center" style="margin-top: 3%">
         <span>nikolovski.io</span>

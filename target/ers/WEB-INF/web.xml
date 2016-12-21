@@ -7,4 +7,14 @@
         <param-name>localURL</param-name>
         <param-value>"http://localhost:7001/ers"</param-value>
     </context-param>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error</location>
+    </error-page>
+
 </web-app>

@@ -25,6 +25,16 @@ public class FrontController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         switch (req.getRequestURI()){
+            case "/ers/login.do":
+                if(req.getSession().getAttribute("userData")!=null)
+                    new ReimbursementController().pending(req,resp);
+                else req.getRequestDispatcher("index.jsp").forward(req,resp);
+                break;
+            case "/ers/register.do":
+                if(req.getSession().getAttribute("userData")!=null)
+                    new ReimbursementController().pending(req,resp);
+                else req.getRequestDispatcher("index.jsp").forward(req,resp);
+                break;
             case "/ers/pending.do":
                 new ReimbursementController().pending(req,resp);
                 break;
@@ -36,6 +46,10 @@ public class FrontController extends HttpServlet {
                 break;
             case "/ers/get_receipt.do":
                 new ReimbursementController().getReceipt(req,resp);
+                break;
+            case "/ers/logout.do":
+                req.getSession().invalidate();
+                req.getRequestDispatcher("index.jsp").forward(req,resp);
                 break;
         }
     }
