@@ -7,7 +7,6 @@ import com.revature.ers.beans.User;
 import com.revature.ers.exceptions.ExistingUserException;
 import com.revature.ers.middle.BusinessDelegate;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,8 +37,8 @@ public class UserController {
             }
             req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
         } catch (NullPointerException e){
-            System.out.println(e);
-            req.getSession().setAttribute("authFailed","Invalid username/password combination!");
+            req.getSession().setAttribute("message","Invalid username/password combination!");
+            req.setAttribute("error",true);
             req.getRequestDispatcher("index.jsp").forward(req,resp);
         }
     }
@@ -53,10 +52,12 @@ public class UserController {
         int role_id = Integer.parseInt(req.getParameter("role_id"));
         try {
             new BusinessDelegate().register(username,password,first_name,last_name,email,role_id);
-            req.setAttribute("registerSuccess","Successfully registered!");
+            req.setAttribute("message","Successfully registered!");
+            req.setAttribute("error",false);
             req.getRequestDispatcher("index.jsp").forward(req,resp);
         } catch (ExistingUserException e) {
-            req.setAttribute("registerFailed",e.getMessage());
+            req.setAttribute("message",e.getMessage());
+            req.setAttribute("error",false);
             req.getRequestDispatcher("index.jsp").forward(req,resp);
         }
     }
