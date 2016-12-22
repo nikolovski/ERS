@@ -36,16 +36,16 @@
             /*background-color: #333;*/
         }
 
-        #view_receipt {
+        .view_receipt {
             width: 50px;
             height: 50px;
         }
 
-        #view_receipt:hover {
+        .view_receipt:hover {
             cursor: hand;
         }
 
-        #receipt_td {
+        .receipt_td {
             text-align: center;
         }
     </style>
@@ -55,15 +55,15 @@
             $('#reimbursementTable').DataTable();
 
             //Open receipt file when clicked
-            $("#view_receipt").click(function () {
-                $("#receipt_form").submit();
+            $(".view_receipt").click(function () {
+                $(".receipt_form" + $(this).attr("id")).submit();
             });
 
             //Update reimbursement statuses
             $("#submit_button").click(function () {
-                if($("[name='approved']:checked").length !=0 || $("[name='declined']:checked").length!=0)
+                if ($("[name='approved']:checked").length != 0 || $("[name='denied']:checked").length != 0)
                     $("#updateReimbursements").submit();
-                 else $("#close_modal").click();
+                else $("#close_modal").click();
             });
         });
     </script>
@@ -82,7 +82,8 @@
     <c:when test="${userData.role.id ==1}">
         <form id="updateReimbursements" action="/ers/updateReimbursements.do" method="post">
             <c:if test="${selectedTab eq 'pending'}">
-                <button type="button" data-toggle="modal" data-target=".confirmation" class="btn btn-success" style="margin-bottom: 5px;">Submit
+                <button type="button" data-toggle="modal" data-target=".confirmation" class="btn btn-success"
+                        style="margin-bottom: 5px; right: 0;">Submit
                     revisions
                 </button>
             </c:if>
@@ -91,6 +92,9 @@
                 <thead>
                 <tr>
                     <th>Submitted On</th>
+                    <c:if test="${selectedTab != 'pending'}">
+                        <th>Resolved On</th>
+                    </c:if>
                     <th>Submitted By</th>
                     <th>Amount</th>
                     <th>Type</th>
@@ -106,17 +110,24 @@
                 <c:forEach var="reimb" items="${reimbursements}">
                     <tr>
                         <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
+
+                        <c:if test="${selectedTab != 'pending'}">
+                            <td>
+                                <fmt:formatDate value="${reimb.reimbResolved}"/>
+                            </td>
+                        </c:if>
+
                         <td><c:out value="${reimb.reimbAuthor.firstName} ${reimb.reimbAuthor.lastName}"/></td>
                         <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
                         <td><c:out value="${reimb.reimbType.type}"/></td>
                         <td><c:out value="${reimb.reimbDescription}"/></td>
-                        <td id="receipt_td">
-                            <form id="receipt_form" action="get_receipt.do" method="get" target="_blank">
+                        <td class="receipt_td">
+                            <form class="receipt_form${reimb.id}" action="get_receipt.do" method="get" target="_blank">
                                 <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
-                                <img src="images/receipt.png" id="view_receipt">
+                                <img src="images/receipt.png" class="view_receipt" id="${reimb.id}">
                             </form>
                         </td>
-                        <%--Display checkboxes if the pending tab is selected--%>
+                            <%--Display checkboxes if the pending tab is selected--%>
                         <c:if test="${selectedTab eq 'pending'}">
                             <td>
                                 <input type="checkbox" onclick="toggleCheck(this,${reimb.id})" class="choice${reimb.id}"
@@ -139,6 +150,7 @@
             <thead>
             <tr>
                 <th>Submitted On</th>
+                <th>Resolved On</th>
                 <th>Status</th>
                 <th>Amount</th>
                 <th>Type</th>
@@ -150,14 +162,25 @@
             <c:forEach var="reimb" items="${reimbursements}">
                 <tr>
                     <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
-                    <td><c:out value="${reimb.reimbStatus.status}"/></td>
+                    <td><fmt:formatDate value="${reimb.reimbResolved}"/></td>
+                    <td>
+                        <h4>
+                            <c:choose>
+                            <c:when test="${reimb.reimbStatus.id eq 1}"><span class="label label-success"></c:when>
+                            <c:when test="${reimb.reimbStatus.id eq 2}"><span class="label label-warning"></c:when>
+                                <c:otherwise><span class="label label-danger"></c:otherwise>
+                            </c:choose>
+                            <c:out value="${reimb.reimbStatus.status}"/>
+                            </span>
+                        </h4>
+                    </td>
                     <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
                     <td><c:out value="${reimb.reimbType.type}"/></td>
                     <td><c:out value="${reimb.reimbDescription}"/></td>
-                    <td>
-                        <form action="get_receipt.do" method="get" target="_blank">
+                    <td class="receipt_td">
+                        <form class="receipt_form${reimb.id}" action="get_receipt.do" method="get" target="_blank">
                             <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
-                            <input type="submit" value="View Receipt">
+                            <img src="images/receipt.png" class="view_receipt" id="${reimb.id}">
                         </form>
                     </td>
                 </tr>
@@ -170,7 +193,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Confirm submission</h4>
             </div>
             <div class="modal-body">
@@ -194,10 +218,6 @@
         var reimbStatus = document.getElementsByClassName("choice" + reimb_id);
         for (var i in reimbStatus) reimbStatus[i].checked = false;
         reimb_cb.checked = true;
-    }
-
-    function submitForm() {
-        document.getElementById("updateReimbursements").submit();
     }
 </script>
 </html>

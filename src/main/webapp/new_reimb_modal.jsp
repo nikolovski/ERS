@@ -30,7 +30,6 @@
                             <div class="input-group">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></div>
                                 <input type="number" step="any" name="amount" class="form-control" placeholder="Amount" required>
-                                <div class="input-group-addon">.00</div>
                             </div>
                         </div>
                     </div>

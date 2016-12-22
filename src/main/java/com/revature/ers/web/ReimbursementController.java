@@ -96,7 +96,6 @@ public class ReimbursementController {
     public void getReceipt(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         List<Reimbursement> reimbursementList = (List<Reimbursement>) req.getSession().getAttribute("reimbursements");
         Reimbursement reimbursement = reimbursementList.get(Integer.parseInt(req.getParameter("reimbId")));
-
         InputStream inputStream = reimbursement.getReimbReceipt();
         byte[] buffer = new byte[4096];
         int bytesRead = -1;
