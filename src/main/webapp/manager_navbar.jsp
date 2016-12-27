@@ -46,6 +46,7 @@
                 </c:choose>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Logged in as ${userData.firstName} ${userData.lastName}</a></li>
                 <li><a href="/ers/logout.do">LogOut</a></li>
             </ul>
         </div>
