@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: d4k1d23
-  Date: 12/8/16
-  Time: 3:13 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -48,14 +41,30 @@
         .receipt_td {
             text-align: center;
         }
+        .view_receipt_style {
+            background: url("images/receipt.png");
+            background-size: 100%;
+            border: 0;
+            display: block;
+            height: 50px;
+            width: 50px;
+        }
     </style>
     <script>
         $(document).ready(function () {
-            //Make the regular table a datatable
+            //Make the generic table a datatable
             $('#reimbursementTable').DataTable();
 
             //Open receipt file when clicked
             $(".view_receipt").click(function () {
+                var receipt_id = $(this).attr("id");
+                var form = "<form id='" + receipt_id + "' action='get_receipt.do' method='get' target='_blank'>" +
+                    "<input type='text' value='" + receipt_id + "' name='reimbId' hidden></form>";
+                $("body").append(form);
+                $("body").children("#" + receipt_id).submit();
+            });
+
+            $(".view_receipt_emp").click(function () {
                 $(".receipt_form" + $(this).attr("id")).submit();
             });
 
@@ -70,6 +79,7 @@
 
 </head>
 <body>
+<%--Choosing the navbar according to the user role--%>
 <c:choose>
     <c:when test="${userData.role.id eq 1}">
         <%@include file="manager_navbar.jsp" %>
@@ -78,20 +88,22 @@
         <%@include file="employee_navbar.jsp" %>
     </c:otherwise>
 </c:choose>
+<%--Choosing the dashboard view according to the user role--%>
 <c:choose>
+    <%--Financial manager dashboard view--%>
     <c:when test="${userData.role.id ==1}">
+        <button type="button" data-toggle="modal" data-target=".confirmation"
+                class="btn btn-success"
+                style="margin-bottom: 5px; right: 0;">Submit
+            revisions
+        </button>
         <form id="updateReimbursements" action="/ers/updateReimbursements.do" method="post">
-            <c:if test="${selectedTab eq 'pending'}">
-                <button type="button" data-toggle="modal" data-target=".confirmation" class="btn btn-success"
-                        style="margin-bottom: 5px; right: 0;">Submit
-                    revisions
-                </button>
-            </c:if>
             <table id="reimbursementTable" class="table table-condensed table-striped table-bordered table-responsive"
                    cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th>Submitted On</th>
+                        <%--If on approved or denied page, display the resolved date--%>
                     <c:if test="${selectedTab != 'pending'}">
                         <th>Resolved On</th>
                     </c:if>
@@ -100,6 +112,7 @@
                     <th>Type</th>
                     <th>Description</th>
                     <th>Receipt</th>
+                        <%--Display checkboxes only on the pending page--%>
                     <c:if test="${selectedTab eq 'pending'}">
                         <th><span class="glyphicon glyphicon-ok"></span></th>
                         <th><span class="glyphicon glyphicon-remove"></span></th>
@@ -124,7 +137,8 @@
                         <td class="receipt_td">
                             <form class="receipt_form${reimb.id}" action="get_receipt.do" method="get" target="_blank">
                                 <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
-                                <img src="images/receipt.png" class="view_receipt" id="${reimb.id}">
+                                <img src="images/receipt.png" class="view_receipt"
+                                     id="${reimbursements.indexOf(reimb)}">
                             </form>
                         </td>
                             <%--Display checkboxes if the pending tab is selected--%>
@@ -143,8 +157,43 @@
                 </tbody>
             </table>
         </form>
+        <%--Reimbursement update confirmation modal--%>
+        <div class="modal fade confirmation" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirm submission</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to submit the revisions? The submission is
+                        irreversible!
+                    </div>
+                    <div class="modal-footer">
+                        <button id="close_modal" type="button" class="btn btn-default"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button id="submit_button" type="button" class="btn btn-primary">Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </c:when>
+    <%--Employee dashboard view--%>
     <c:otherwise>
+        <%--The following JSTL is for displaying appropriate message on the login screen--%>
+        <c:if test="${message != null}">
+            <div class="alert alert-danger" id="error">
+                <strong><c:out value="${message}"/></strong>
+            </div>
+            <script>
+                $("#error").hide().fadeIn(500).delay(3000).fadeOut(3000);
+            </script>
+            <% session.setAttribute("message", null); %>
+        </c:if>
         <table id="reimbursementTable" class="table table-condensed table-striped table-bordered table-responsive"
                cellspacing="0" width="100%">
             <thead>
@@ -160,53 +209,37 @@
             </thead>
             <tbody>
             <c:forEach var="reimb" items="${reimbursements}">
-                <tr>
-                    <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
-                    <td><fmt:formatDate value="${reimb.reimbResolved}"/></td>
-                    <td>
-                        <h4>
-                            <c:choose>
-                            <c:when test="${reimb.reimbStatus.id eq 1}"><span class="label label-success"></c:when>
-                            <c:when test="${reimb.reimbStatus.id eq 2}"><span class="label label-warning"></c:when>
-                                <c:otherwise><span class="label label-danger"></c:otherwise>
+                    <tr>
+                        <td><fmt:formatDate value="${reimb.reimbSubmitted}"/></td>
+                        <td><fmt:formatDate value="${reimb.reimbResolved}"/></td>
+                        <td>
+                            <h4>
+                                    <%--Choosing the appropriate label color for the reimbursement status--%>
+                                <c:choose>
+                                <c:when test="${reimb.reimbStatus.id eq 1}"><span class="label label-success"></c:when>
+                                <c:when test="${reimb.reimbStatus.id eq 2}"><span class="label label-warning"></c:when>
+                                    <c:otherwise><span class="label label-danger"></c:otherwise>
                             </c:choose>
                             <c:out value="${reimb.reimbStatus.status}"/>
                             </span>
-                        </h4>
-                    </td>
-                    <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
-                    <td><c:out value="${reimb.reimbType.type}"/></td>
-                    <td><c:out value="${reimb.reimbDescription}"/></td>
-                    <td class="receipt_td">
-                        <form class="receipt_form${reimb.id}" action="get_receipt.do" method="get" target="_blank">
-                            <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
-                            <img src="images/receipt.png" class="view_receipt" id="${reimb.id}">
-                        </form>
-                    </td>
-                </tr>
+                            </h4>
+                        </td>
+                        <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${reimb.reimbAmount}"/></td>
+                        <td><c:out value="${reimb.reimbType.type}"/></td>
+                        <td><c:out value="${reimb.reimbDescription}"/></td>
+                        <td class="receipt_td">
+                            <form class="receipt_form${reimb.id}" action="get_receipt.do" method="get" target="_blank">
+                                <input type="text" value="${reimbursements.indexOf(reimb)}" name="reimbId" hidden>
+                                <input class="view_receipt_style" type="submit" value="">
+                                <%--<img src="images/receipt.png" class="view_receipt_emp" id="${reimb.id}">--%>
+                            </form>
+                        </td>
+                    </tr>
             </c:forEach>
             </tbody>
         </table>
     </c:otherwise>
 </c:choose>
-<div class="modal fade confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Confirm submission</h4>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to submit the revisions? The submission is irreversible!
-            </div>
-            <div class="modal-footer">
-                <button id="close_modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="submit_button" type="button" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 <script>
     /**

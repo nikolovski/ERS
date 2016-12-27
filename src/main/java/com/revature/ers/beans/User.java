@@ -1,7 +1,6 @@
 package com.revature.ers.beans;
 
 import com.revature.ers.ResourceHelper;
-import com.revature.ers.exceptions.StringLengthException;
 
 
 /**
@@ -30,7 +29,6 @@ public class User implements ResourceHelper {
      * @param lastName
      * @param email
      * @param role      the role of the user such as DBA, Web Developer, Finance Manger etc.
-     * @throws StringLengthException if any of the input values violates the length restriction
      */
     public User(int id,
                 String username,
@@ -38,7 +36,7 @@ public class User implements ResourceHelper {
                 String firstName,
                 String lastName,
                 String email,
-                UserRole role) throws StringLengthException {
+                UserRole role) {
         this.id = id;
         this.username = username;
         this.password = password;

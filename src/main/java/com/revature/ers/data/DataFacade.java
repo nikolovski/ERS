@@ -20,8 +20,8 @@ public class DataFacade {
             connection.setAutoCommit(false);
             ReimbursementDAO reimbursementDAO = new ReimbursementDAO(connection);
             reimbursementDAO.insert(reimbursement);
-            connection.commit();
             reimbursementList = reimbursementDAO.queryByUser(reimbursement.getReimbAuthor(),1);
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {

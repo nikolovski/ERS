@@ -3,7 +3,8 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -14,7 +15,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#" data-toggle="modal" data-target="#new_reimb">New Reimbursement <span class="glyphicon glyphicon-plus"></span></a>
+                    <a href="#" data-toggle="modal" data-target="#new_reimb">New Reimbursement <span
+                            class="glyphicon glyphicon-plus"></span></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -22,5 +24,5 @@
             </ul>
         </div>
     </div>
-    <%@include file="new_reimb_modal.jsp"%>
+    <%@include file="new_reimb_modal.jsp" %>
 </nav>

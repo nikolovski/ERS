@@ -10,15 +10,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="gridSystemModalLabel">Submit Request</h4>
             </div>
             <div class="modal-body">
-                <form id="new_reimbursement" action="/ers/new_reimbursement.do" method="post" enctype="multipart/form-data">
+                <form id="new_reimbursement" action="/ers/new_reimbursement.do" method="post"
+                      enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                <span class="input-group-addon"><span
+                                        class="glyphicon glyphicon-asterisk"></span></span>
                                 <select class="form-control" name="type">
                                     <c:forEach var="type" items="${reimbTypes}">
                                         <option value="${type.id}">${type.type}</option>
@@ -29,7 +32,8 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <div class="input-group">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></div>
-                                <input type="number" step="any" name="amount" class="form-control" placeholder="Amount" required>
+                                <input type="number" step="any" name="amount" class="form-control" placeholder="Amount"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -50,4 +54,5 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
+<!-- /.modal -->

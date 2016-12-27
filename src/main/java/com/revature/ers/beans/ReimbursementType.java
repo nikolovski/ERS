@@ -1,7 +1,6 @@
 package com.revature.ers.beans;
 
 import com.revature.ers.ResourceHelper;
-import com.revature.ers.exceptions.StringLengthException;
 
 /**
  * Created by Martino Nikolovski on 12/2/16.
@@ -35,9 +34,7 @@ public class ReimbursementType implements ResourceHelper {
         return type;
     }
 
-    public void setType(String type) throws StringLengthException {
-        this.type = type;
-    }
+    public void setType(String type) { this.type = type; }
 
     @Override
     public String toString() {

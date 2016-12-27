@@ -1,7 +1,6 @@
 package com.revature.ers.beans;
 
 import com.revature.ers.ResourceHelper;
-import com.revature.ers.exceptions.StringLengthException;
 
 /**
  * Created by Martino Nikolovski on 12/2/16.
@@ -17,9 +16,8 @@ public class UserRole implements ResourceHelper {
      * Constructor with 2 input parameters
      * @param id the id of the role
      * @param role the name of the role
-     * @throws StringLengthException if the role length is beyond the range specified in the properties file
      */
-    public UserRole(int id, String role) throws StringLengthException {
+    public UserRole(int id, String role) {
         this.id = id;
         this.role = role;
     }
@@ -36,9 +34,7 @@ public class UserRole implements ResourceHelper {
         return role;
     }
 
-    public void setRole(String role) throws StringLengthException{
-        this.role = role;
-    }
+    public void setRole(String role){ this.role = role; }
 
     @Override
     public String toString() {

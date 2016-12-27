@@ -1,7 +1,6 @@
 package com.revature.ers.beans;
 
 import com.revature.ers.ResourceHelper;
-import com.revature.ers.exceptions.StringLengthException;
 
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -24,6 +23,7 @@ public class Reimbursement implements ResourceHelper {
 
     /**
      * Constructor with 10 input parameters
+     *
      * @param id
      * @param reimbAmount
      * @param reimbSubmitted
@@ -34,7 +34,6 @@ public class Reimbursement implements ResourceHelper {
      * @param reimbResolver
      * @param reimbStatus
      * @param reimbType
-     * @throws StringLengthException if any of the input values violates the length restriction
      */
     public Reimbursement(int id,
                          double reimbAmount,
@@ -94,11 +93,7 @@ public class Reimbursement implements ResourceHelper {
         return reimbDescription;
     }
 
-    public void setReimbDescription(String reimbDescription) throws StringLengthException {
-        if(validateDescriptionLength(reimbDescription))
-            this.reimbDescription = reimbDescription;
-        else throw new StringLengthException();
-    }
+    public void setReimbDescription(String reimbDescription) { this.reimbDescription = reimbDescription; }
 
     public InputStream getReimbReceipt() {
         return reimbReceipt;
@@ -154,17 +149,5 @@ public class Reimbursement implements ResourceHelper {
                 ",\n\treimbStatus=" + reimbStatus +
                 ",\n\treimbType=" + reimbType +
                 "\n\t}";
-    }
-
-    /**
-     * Validation for the description length
-     * @param reimbDescription
-     * @return true if the validation is successful
-     */
-    private boolean validateDescriptionLength(String reimbDescription){
-        if(reimbDescription==null || reimbDescription.length()==0) return false;
-        int length = Integer.parseInt(constants.getString("reimbursement.description.length"));
-        System.out.println(reimbDescription.length());
-        return  reimbDescription.length()<=length? true:false;
     }
 }

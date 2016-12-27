@@ -4,19 +4,20 @@
 <head>
     <title>Error <c:out value="${status}"></c:out></title>
     <style>
-        body{
+        body {
             background-size: 100%;
-            background-repeat:no-repeat;
+            background-repeat: no-repeat;
             background-position: center;
         }
     </style>
 
 </head>
 <body>
+<%--Choose the background image according to the thrown error--%>
 <c:choose>
     <c:when test="${status eq 404}">
         <style>
-            body{
+            body {
                 background-image: url("images/404.png");
                 background-color: #f06932;
             }
@@ -24,7 +25,7 @@
     </c:when>
     <c:when test="${status eq 403}">
         <style>
-            body{
+            body {
                 background-size: 50%;
                 background-image: url("images/403.jpg");
                 background-color: #89c0c7;
@@ -33,7 +34,7 @@
     </c:when>
     <c:otherwise>
         <style>
-            body{
+            body {
                 background-size: 50%;
                 background-image: url("images/other_error.jpg");
                 background-color: #d0dce9;

@@ -55,6 +55,7 @@ public class ReimbursementController {
                 temp.setReimbResolved(new Timestamp(System.currentTimeMillis()));
                 updatedReimbursements.add(temp);
             }
+        System.out.println(req.getParameterValues("denied"));
         if (req.getParameterValues("denied") != null)
             for (String id : req.getParameterValues("denied")) {
                 temp = reimbursementList.get(Integer.parseInt(id));
@@ -64,33 +65,37 @@ public class ReimbursementController {
                 temp.setReimbResolved(new Timestamp(System.currentTimeMillis()));
                 updatedReimbursements.add(temp);
             }
-
         req.getSession().setAttribute("reimbursements", new BusinessDelegate().updateReimbursements(updatedReimbursements));
         req.getSession().setAttribute("selectedTab", "pending");
         req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
     }
 
     public void insertReimbursement(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        ReimbursementType reimbursementType = new ReimbursementType(Integer.parseInt(req.getParameter("type")), null);
-        ReimbursementStatus reimbursementStatus = new ReimbursementStatus(2, null);
-        Double amount = Double.parseDouble(req.getParameter("amount"));
-        String description = req.getParameter("description");
-        Part filePart = req.getPart("receipt");
-        User author = (User) req.getSession().getAttribute("userData");
-        InputStream receipt = filePart.getInputStream();
-        Reimbursement reimbursement = new Reimbursement(
-                1, amount,
-                new Timestamp(System.currentTimeMillis()),
-                null,
-                description,
-                receipt,
-                author,
-                null,
-                reimbursementStatus,
-                reimbursementType
-        );
-        req.getSession().setAttribute("reimbursements", new BusinessDelegate().insertReimbursement(reimbursement));
-        req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
+        try{
+            ReimbursementType reimbursementType = new ReimbursementType(Integer.parseInt(req.getParameter("type")), null);
+            ReimbursementStatus reimbursementStatus = new ReimbursementStatus(2, null);
+            Double amount = Double.parseDouble(req.getParameter("amount"));
+            String description = req.getParameter("description");
+            Part filePart = req.getPart("receipt");
+            User author = (User) req.getSession().getAttribute("userData");
+            InputStream receipt = filePart.getInputStream();
+            Reimbursement reimbursement = new Reimbursement(
+                    1, amount,
+                    new Timestamp(System.currentTimeMillis()),
+                    null,
+                    description,
+                    receipt,
+                    author,
+                    null,
+                    reimbursementStatus,
+                    reimbursementType
+            );
+            req.getSession().setAttribute("reimbursements", new BusinessDelegate().insertReimbursement(reimbursement));
+            req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
+        } catch (IllegalStateException e){
+            req.getSession().setAttribute("message","The file exceeded the 5MB limit!");
+            req.getRequestDispatcher("dashboard.jsp").forward(req,resp);
+        }
     }
 
     public void getReceipt(HttpServletRequest req, HttpServletResponse resp) throws IOException {
